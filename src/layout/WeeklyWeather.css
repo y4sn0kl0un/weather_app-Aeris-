@@ -1,5 +1,5 @@
 @media (prefers-reduced-motion: no-preference) {
-    .weather-weather {
+    .weekly-weather {
         animation: fadeIn 1s ease-in-out;
     }
 
