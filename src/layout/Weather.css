@@ -1,0 +1,88 @@
+@media (prefers-reduced-motion: no-preference) {
+    .weather-info {
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+}
+
+.weather-info {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    background-color: #0E1421;
+    border-radius: 50px;
+    margin-top: 20px;
+    min-width: 40rem;
+    height: 21rem;
+    flex-grow: 1;
+}
+.current-location {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    margin-left: 2rem;
+    margin-top: 2rem;
+    flex-basis: 2rem;
+}
+.current-location h4 {
+    background-color: purple;
+    border-radius: 30px;
+    padding: 0.5rem 1rem;
+}
+
+.day-temp {
+    display: block;
+    align-items: center;
+    justify-content: center;
+    margin-left: 2rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+    justify-items: flex-start;
+ }
+.date h2{
+    font-size: 15px;
+    margin-right: 1rem;
+}
+.temp h1{
+    font-size: 3rem;
+    margin-top: 2rem;
+}
+
+.weather-date-temp {
+    display: flex;
+    margin-top: 1rem;
+    margin-left: 1rem;
+    position: absolute;
+}
+
+.icon-con {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+    margin-top: 4rem;
+}
+.condition {
+    font-size: 1.3rem;
+    margin-left: 5rem;
+}
+.weather-icon img{
+    width: 300px;
+    height: 150px;
+    position: relative;
+    margin-bottom: 1rem;
+
+}
+.day h2 {
+    text-align: left;
+    font-size: 2.5rem;
+}

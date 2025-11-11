@@ -1,0 +1,82 @@
+@media (prefers-reduced-motion: no-preference) {
+    .highlights {
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+}
+.highlights {
+    display: flex;
+    background-color: #0E1421;
+    flex-direction: column;
+    align-items: stretch;
+    justify-items: stretch ;
+    justify-content: center;
+    border-radius: 50px;
+    margin-top: 4.5rem;
+    margin-left: 10rem;
+    min-width: 76vh;
+    height: 88vh;
+    flex-grow: 1;
+}
+
+.highlights h2 {
+    margin-left: 2rem;
+    margin-bottom: 2rem;
+}
+.highlight-cards {
+    display: flex;
+    margin-bottom: 4rem;
+    margin-left: 3rem;
+    background-color: transparent;
+    justify-content: center;
+    align-content: center;
+    flex-flow: wrap ;
+    width: 35rem;
+    gap: 3rem;
+    padding: 1rem;
+    justify-items: stretch;
+    align-items: stretch;
+}
+.rain {
+    min-width: 15rem;
+    min-height: 16rem;
+}
+
+.uv {
+    min-width: 15rem;
+    min-height: 16rem;
+}
+.wind {
+    min-width: 15rem;
+    min-height: 16rem;
+
+}
+.humidity {
+    min-width: 15rem;
+    min-height: 16rem;
+
+}
+.highlights img {
+    width: 200px;
+    height: fit-content;
+}
+
+.uv {
+    font-weight: bold;
+    font-size: 1rem;
+}
+.value p {
+    font-size: 10rem;
+    font-weight: bold;
+}
+
+
+

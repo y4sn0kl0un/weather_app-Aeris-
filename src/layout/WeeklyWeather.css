@@ -1,0 +1,94 @@
+@media (prefers-reduced-motion: no-preference) {
+    .weather-weather {
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+.weekly-weather {
+  display: flex;
+  background-color: #0E1421;
+  border-radius: 50px;
+  margin-top: 40px;
+    min-width: 40vh;
+    flex-direction: column;
+    flex-wrap: wrap;
+    flex-basis: auto;
+}
+.weekly-weather-info {
+    margin-left: 1rem;
+}
+.weekly-weather h3 {
+    margin-top: 2rem;
+    margin-left: 2rem;
+}
+
+.hour-info-list{
+    display: flex;
+    flex-direction: row;
+    background-color:  #1D325F;
+    width: fit-content;
+    height: fit-content;
+    border-radius: 1rem;
+
+}
+.hour-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem;
+    height: 8rem;
+    width: 3.5rem;
+    background-color: transparent;
+    text-align: center;
+    border-radius: 20px;
+    border: 1px solid white;
+}
+
+.tomorrow-weather {
+    width: 28rem;
+    height: 8rem;
+    margin-top: 1em;
+    border-radius: 1rem;
+    margin-left: 1rem;
+    display: block;
+    flex-basis: 8.5rem;
+    background-color: #1D325F;
+
+}
+.tomorrow-info {
+    border-radius: 1rem;
+    align-content: center;
+    justify-content: center;
+    height: 4rem;
+}
+.tomorrow-info h3 {
+    font-weight: bold;
+}
+
+.tomorrow-infop {
+    margin-left: 3rem;
+    font-size: 0.8rem;
+
+}
+
+.tomorrow-info-photo {
+    display: flex;
+    align-items: flex-end;
+    margin-left: 15rem;
+    position: relative;
+}
+.tomorrow-info-photo img {
+    width: 5rem;
+    height: 5rem;
+}
+
+

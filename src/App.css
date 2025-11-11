@@ -1,0 +1,22 @@
+.layout {
+    display: flex;
+}
+
+.search {
+   position: relative;
+}
+.weather {
+  position: absolute;
+}
+.profile {
+  position: absolute;
+  right: 0;
+}
+.highlights {
+ position: relative;
+}
+.loading {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
