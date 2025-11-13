@@ -11,12 +11,13 @@
             opacity: 1;
         }
     }
+} /* <-- ДОБАВЬТЕ ЭТУ ЗАКРЫВАЮЩУЮ СКОБКУ */
 
 .weekly-weather {
-  display: flex;
-  background-color: #0E1421;
-  border-radius: 50px;
-  margin-top: 40px;
+    display: flex;
+    background-color: #0E1421;
+    border-radius: 50px;
+    margin-top: 40px;
     min-width: 40vh;
     flex-direction: column;
     flex-wrap: wrap;
@@ -90,5 +91,3 @@
     width: 5rem;
     height: 5rem;
 }
-
-
