@@ -1,4 +1,4 @@
-@media (prefers-reduced-motion: no-preference) {
+@media (prefers-reduced-motion) {
     .weekly-weather {
         animation: fadeIn 1s ease-in-out;
     }
@@ -11,8 +11,7 @@
             opacity: 1;
         }
     }
-} /* <-- ДОБАВЬТЕ ЭТУ ЗАКРЫВАЮЩУЮ СКОБКУ */
-
+}
 .weekly-weather {
     display: flex;
     background-color: #0E1421;
