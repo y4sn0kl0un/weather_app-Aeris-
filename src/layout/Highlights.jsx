@@ -3,7 +3,7 @@ import "./Highlights.css"
 export function Highlights({  rainValue, uvValue, windValue, humidityValue }) {
     return (
         <div className="highlights">
-            <h2>Today's Highlights</h2>
+
             <div className="highlight-cards">
 
                 <div className="rain">

@@ -1,12 +1,19 @@
+.search {
+}
+text {
+    text-align: left;
+}
 input {
-    width: 100%;
-    padding: 10px 180px;
+    display: flex;
+    width: 30rem;
+    padding: 0.8rem;
     border: 2px solid transparent;
     border-radius: 20px;
     margin-top: 10px;
     background-color: #0E1421;
-    margin-right: 20px;
+    text-align: left;
 }
 input::placeholder {
+    display: flex;
 
 }

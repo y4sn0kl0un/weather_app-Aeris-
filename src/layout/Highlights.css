@@ -16,15 +16,16 @@
     display: flex;
     background-color: #0E1421;
     flex-direction: column;
-    align-items: stretch;
-    justify-items: stretch ;
+    align-items: center;
+    align-content: center;
+    justify-items: center ;
     justify-content: center;
     border-radius: 50px;
     margin-top: 4.5rem;
     margin-left: 10rem;
-    min-width: 76vh;
+    width: 47vw;
     height: 88vh;
-    flex-grow: 1;
+    flex-grow: 3;
 }
 
 .highlights h2 {
@@ -44,10 +45,12 @@
     padding: 1rem;
     justify-items: stretch;
     align-items: stretch;
+    position: absolute;
 }
 .rain {
     min-width: 15rem;
     min-height: 16rem;
+    position: relative;
 }
 
 .uv {
@@ -77,6 +80,3 @@
     font-size: 10rem;
     font-weight: bold;
 }
-
-
-

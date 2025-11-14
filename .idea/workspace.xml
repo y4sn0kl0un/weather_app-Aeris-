@@ -6,6 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="fabff666-eeed-4067-abe3-f811289faceb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/index-DFU4ROEd.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/index-Dt_V0yCE.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layout/Highlights.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/Highlights.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layout/Highlights.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/Highlights.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layout/Search.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/Search.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layout/Weather.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/Weather.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layout/WeeklyWeather.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/WeeklyWeather.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layout/search.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/Search.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +108,7 @@
       <workItem from="1762414652110" duration="36480000" />
       <workItem from="1762673469033" duration="907000" />
       <workItem from="1762757550626" duration="15982000" />
-      <workItem from="1762843191377" duration="10097000" />
+      <workItem from="1762843191377" duration="21374000" />
     </task>
     <servers />
   </component>
@@ -116,7 +126,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="HEAD" />
+                        <option value="origin/frontend" />
                       </list>
                     </value>
                   </entry>
