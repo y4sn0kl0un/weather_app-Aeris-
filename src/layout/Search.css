@@ -17,3 +17,11 @@ input::placeholder {
     display: flex;
 
 }
+.dropdown {
+    position: absolute;
+    background-color: #0E1421;
+    border: 1px solid #333;
+    width: 30rem;
+    border-radius: 5px;
+    z-index: 1111;
+}
