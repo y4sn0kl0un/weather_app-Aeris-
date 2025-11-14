@@ -1,7 +1,7 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request, Response
 import requests
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
+import uuid
 
 app = FastAPI()
 
@@ -14,6 +14,48 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+sessions = {}
+
+def get_session_id(request: Request):
+    return request.cookies.get("session_id")
+
+def get_or_create_session_id(request: Request, response: Response):
+    session_id = get_session_id(request)
+    if not session_id or session_id not in sessions:
+        session_id = str(uuid.uuid4())
+        sessions[session_id] = {"bookmarks": []}
+        response.set_cookie("session_id", session_id, httponly=True)
+
+    return session_id
+
+
+@app.get("/bookmarks")
+def bookmarks_list(request: Request, response: Response):
+    session_id = get_or_create_session_id(request, response)
+    bookmarks = sessions[session_id]["bookmarks"]
+
+    return {"bookmarks": bookmarks}
+
+@app.get("/bookmarks/add")
+def add_bookmarks(request: Request, response: Response, city: str):
+    session_id = get_or_create_session_id(request, response)
+    bookmarks = sessions[session_id]["bookmarks"]
+
+    city = city.strip().title()
+    if city not in bookmarks:
+        bookmarks.append(city)
+    return {"bookmarks": bookmarks}
+
+@app.get("/bookmarks/delete")
+def delete_bookmarks(request: Request, response: Response, city: str):
+    session_id = get_or_create_session_id(request, response)
+    bookmarks = sessions[session_id]["bookmarks"]
+
+    city = city.strip().title()
+    if city in bookmarks:
+        bookmarks.remove(city)
+    return {"bookmarks": bookmarks}
 
 WEATHER_CODES = {
     0: "Clear sky",
@@ -176,17 +218,4 @@ def get_weather(city: str):
     return response
 
 
-@app.get("/weather/multiple")
-def get_multiple_weather(cities: str):
-    results = []
-    for city in cities.split(","):
-        try:
-            city = city.strip()
-            data = get_weather(city)
-            results.append(data)
-        except Exception as e:
-            results.append({"city": city, "error": str(e)})
-    return results
 
-
-app.mount("/", StaticFiles(directory="dist", html=True), name="static")
