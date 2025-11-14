@@ -33,7 +33,7 @@ export function WeeklyWeather({ sunset, sunrise, hourlyData, tomorrowCondition }
                 <h2> {sunrise}</h2>
                 </div>
                 <div className="sunrise">
-                    <h3>Sunset</h3>
+                    <h3>Sunset:</h3>
                     <h2> {sunset}</h2>
                 </div>
 

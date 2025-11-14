@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="fabff666-eeed-4067-abe3-f811289faceb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layout/Profile.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/Profile.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/layout/WeeklyWeather.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/WeeklyWeather.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/layout/WeeklyWeather.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/WeeklyWeather.jsx" afterDir="false" />
     </list>
@@ -102,7 +100,7 @@
       <workItem from="1762414652110" duration="36480000" />
       <workItem from="1762673469033" duration="907000" />
       <workItem from="1762757550626" duration="15982000" />
-      <workItem from="1762843191377" duration="30729000" />
+      <workItem from="1762843191377" duration="31974000" />
     </task>
     <servers />
   </component>
