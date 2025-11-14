@@ -31,38 +31,34 @@ function App() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Функция для получения дня недели
     const getWeekDay = (dateString) => {
         const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         const date = new Date(dateString);
         return days[date.getDay()];
     };
 
-    // Функция для форматирования даты
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         const options = { month: 'short', day: 'numeric', year: 'numeric' };
         return date.toLocaleDateString('en-US', options);
     };
 
-    // Функция для получения текущего часа
     const getCurrentHour = (timeString) => {
         const date = new Date(timeString);
         return date.getHours() + ':00';
     };
 
-    // Функция для форматирования времени из ISO строки
     const formatHourTime = (isoString) => {
         const date = new Date(isoString);
         return date.getHours() + ':00';
     };
 
-    useEffect(() => {
-        console.log("API_URL is:", API_URL);
-        console.log("Full URL:", `${API_URL}/api/weather?city=Seoul`);
-
+    const fetchWeatherData = (cityName) => {
+        console.log("Загружаем погоду для города:", cityName);
         setLoading(true);
-        fetch(`${API_URL}/api/weather?city=Seoul`, {
+        setError(null);
+
+        fetch(`${API_URL}/api/weather?city=${cityName}`, {
             headers: {
                 'ngrok-skip-browser-warning': 'true'
             }
@@ -77,17 +73,14 @@ function App() {
             .then(data => {
                 console.log("Weather data:", data);
 
-                // Получаем текущий час
                 const currentDate = new Date(data.current.time);
                 const currentHour = currentDate.getHours();
 
-                // Находим индекс текущего часа в hourly данных
                 const currentHourIndex = data.hourly.time.findIndex(time => {
                     const hourDate = new Date(time);
                     return hourDate.getHours() === currentHour;
                 });
 
-                // Берем 8 часов начиная с текущего
                 const startIndex = currentHourIndex >= 0 ? currentHourIndex : 0;
                 const hourlyForecast = data.hourly.time.slice(startIndex, startIndex + 5).map((time, index) => ({
                     time: formatHourTime(time),
@@ -95,9 +88,8 @@ function App() {
                     image: "/cloud.svg"
                 }));
 
-                // Преобразуем данные с бэкенда в нужный формат
                 setWeatherData({
-                    city: data.city || "Seoul",
+                    city: cityName,
                     weekDay: getWeekDay(data.current.time),
                     temperature: Math.round(data.current.temperature),
                     hour: getCurrentHour(data.current.time),
@@ -120,6 +112,10 @@ function App() {
                 setError(err.message);
                 setLoading(false);
             });
+    };
+
+    useEffect(() => {
+        fetchWeatherData("Seoul");
     }, []);
 
     if (loading) {
@@ -137,7 +133,7 @@ function App() {
                     <SideMenu image="/logo.svg"/>
                 </div>
                 <div className="search">
-                    <Search />
+                    <Search onCitySelect={fetchWeatherData} />
 
                     <div className="weather">
                         <Weather
