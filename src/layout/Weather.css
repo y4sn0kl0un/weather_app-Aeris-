@@ -21,7 +21,7 @@
     border-radius: 50px;
     margin-top: 20px;
     width: 40vw;
-    height: 23vw;
+    height: 40vh;
     flex-grow: 1;
 }
 @media (min-width: 1024px) {

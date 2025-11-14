@@ -27,6 +27,8 @@ export function WeeklyWeather({ hourlyData, tomorrowCondition }) {
                     </div>
                 </div>
             </div>
+            <div className="sunset"></div>
+
         </div>
     );
 }

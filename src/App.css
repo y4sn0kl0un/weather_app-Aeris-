@@ -13,7 +13,7 @@
   right: 0;
 }
 .highlights {
- position: relative;
+ position: absolute;
 }
 .loading {
   position: absolute;

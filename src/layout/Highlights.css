@@ -1,5 +1,5 @@
 @media (prefers-reduced-motion: no-preference) {
-    .highlights {
+    .highlight-cards {
         animation: fadeIn 1s ease-in-out;
     }
 
@@ -21,8 +21,8 @@
     justify-items: center ;
     justify-content: center;
     border-radius: 50px;
-    margin-top: 4.5rem;
-    margin-left: 10rem;
+    margin-left: 49rem;
+    margin-top: 5rem;
     width: 47vw;
     height: 88vh;
     flex-grow: 3;

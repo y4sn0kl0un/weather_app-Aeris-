@@ -88,7 +88,7 @@ export function Search({ onCitySelect }) {
                     onChange={(e) => setSearchCity(e.target.value)}
                     placeholder="Search City..."
                 />
-                {loading && <span className="search-loading">🔄</span>}
+                {loading && <span className="search-loading">...</span>}
             </div>
 
             {dropdown && (
@@ -100,7 +100,6 @@ export function Search({ onCitySelect }) {
                             onClick={() => handleSelect(city)}
                         >
                             <div className="city-name">{city.name}</div>
-                            <div className="city-country">{city.country}</div>
                         </div>
                     ))}
                 </div>

@@ -1,5 +1,5 @@
 @media (prefers-reduced-motion: no-preference) {
-    .weekly-weather {
+    .weekly-weather-info {
         animation: fadeIn 1s ease-in-out;
     }
 
@@ -18,6 +18,7 @@
     border-radius: 50px;
     margin-top: 40px;
     width: 40vw;
+    height: 44vh;
     flex-direction: column;
     flex-wrap: wrap;
     flex-basis: auto;

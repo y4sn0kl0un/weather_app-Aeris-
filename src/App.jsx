@@ -155,7 +155,7 @@ function App() {
                 </div>
 
                 <div className="profile">
-                    <Profile image="/test.png" username="Alewa" />
+                    <Profile image="/default.svg" username="user" />
                 </div>
 
                 <Highlights

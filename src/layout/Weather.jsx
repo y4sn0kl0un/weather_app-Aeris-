@@ -19,6 +19,7 @@ export  function Weather({currentLocation,
   return (
 
         <div className="weather-info">
+
             <div className="current-location">
 
                 <h4>{currentLocation}</h4>

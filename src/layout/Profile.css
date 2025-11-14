@@ -2,16 +2,20 @@
     display: flex;
     position: relative;
     background-color: #0E1421;
-    padding: 0.3rem 7rem;
+    padding: 0.3rem;
+    width: 10rem;
     border-radius: 50px;
-    justify-items: flex-start;
     align-items: center;
     margin-top: 2%;
     margin-right: 1%;
 
 }
+.profile-pic {
+    border-radius: 50%;
+    overflow: hidden;
+}
 .profile img {
     width: 40px;
     height: 40px;
-    border-radius: 50%;
+    margin-right: 1rem ;
 }
