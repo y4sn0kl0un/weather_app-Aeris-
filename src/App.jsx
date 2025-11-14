@@ -187,6 +187,7 @@ function App() {
                             tomorrowCondition={weatherData.tomorrowCondition}
                             sunset={weatherData.sunset}
                             sunrise={weatherData.sunrise}
+                            image={"/cloud.svg"}
                         />
                     </div>
                 </div>

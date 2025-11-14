@@ -25,6 +25,7 @@ export function WeeklyWeather({ sunset, sunrise, hourlyData, tomorrowCondition }
                     <div className="tomorrow-infop">
                         <p>{tomorrowCondition}</p>
                     </div>
+                    <img src={image} />
                 </div>
             </div>
             <div className="sunset-sunrise">
