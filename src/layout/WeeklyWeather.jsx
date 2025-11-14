@@ -1,6 +1,6 @@
 import "./WeeklyWeather.css"
 
-export function WeeklyWeather({ hourlyData, tomorrowCondition }) {
+export function WeeklyWeather({ sunset, sunrise, hourlyData, tomorrowCondition }) {
     return (
         <div className="weekly-weather">
             <h3>Today / Week</h3>
@@ -27,8 +27,17 @@ export function WeeklyWeather({ hourlyData, tomorrowCondition }) {
                     </div>
                 </div>
             </div>
-            <div className="sunset"></div>
+            <div className="sunset-sunrise">
+                <div className="sunrise">
+               <h3>Sunrise:</h3>
+                <h2> {sunrise}</h2>
+                </div>
+                <div className="sunrise">
+                    <h3>Sunset</h3>
+                    <h2> {sunset}</h2>
+                </div>
 
+            </div>
         </div>
     );
 }

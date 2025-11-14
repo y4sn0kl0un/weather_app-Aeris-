@@ -25,7 +25,9 @@ function App() {
         uvIndex: "",
         windSpeed: "",
         rainChance: "",
-        hourlyData: []
+        hourlyData: [],
+        sunset: "",
+        sunrise: ""
     });
 
     const [loading, setLoading] = useState(true);
@@ -53,6 +55,35 @@ function App() {
         return date.getHours() + ':00';
     };
 
+    const formatSunTime = (isoString) => {
+        if (!isoString) return '';
+
+        // Если это ISO строка с датой и временем
+        if (typeof isoString === 'string' && isoString.includes('T')) {
+            const time = isoString.split('T')[1].slice(0, 5);
+            return time;
+        }
+
+        // Если это timestamp
+        if (typeof isoString === 'number') {
+            const date = new Date(isoString * 1000);
+            const hours = date.getHours().toString().padStart(2, '0');
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            return `${hours}:${minutes}`;
+        }
+
+        // Попытка обработать как Date объект
+        try {
+            const date = new Date(isoString);
+            const hours = date.getHours().toString().padStart(2, '0');
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            return `${hours}:${minutes}`;
+        } catch (e) {
+            console.error('Error formatting sun time:', e);
+            return '';
+        }
+    };
+
     const fetchWeatherData = (cityName) => {
         console.log("Загружаем погоду для города:", cityName);
         setLoading(true);
@@ -72,6 +103,8 @@ function App() {
             })
             .then(data => {
                 console.log("Weather data:", data);
+                console.log("Sunset data:", data.daily?.sunset?.[0]);
+                console.log("Sunrise data:", data.daily?.sunrise?.[0]);
 
                 const currentDate = new Date(data.current.time);
                 const currentHour = currentDate.getHours();
@@ -103,7 +136,9 @@ function App() {
                     uvIndex: data.hourly.uv_index[0] || 0,
                     windSpeed: Math.round(data.current.wind_speed) || 0,
                     rainChance: data.hourly.precipitation_probability[0] || 0,
-                    hourlyData: hourlyForecast
+                    hourlyData: hourlyForecast,
+                    sunset: formatSunTime(data.daily?.sunset?.[0]),
+                    sunrise: formatSunTime(data.daily?.sunrise?.[0])
                 });
                 setLoading(false);
             })
@@ -150,6 +185,8 @@ function App() {
                         <WeeklyWeather
                             hourlyData={weatherData.hourlyData}
                             tomorrowCondition={weatherData.tomorrowCondition}
+                            sunset={weatherData.sunset}
+                            sunrise={weatherData.sunrise}
                         />
                     </div>
                 </div>
