@@ -34,7 +34,7 @@
 .hour-info-list{
     display: flex;
     flex-direction: row;
-    background-color:  #1D325F;
+    background:  linear-gradient(to bottom, #1D325F 0%, #0E1421 100%);
     width: fit-content;
     height: fit-content;
     border-radius: 1rem;
@@ -62,7 +62,7 @@
     margin-left: 1rem;
     display: block;
     flex-basis: 8.5rem;
-    background-color: #1D325F;
+    background:  linear-gradient(to bottom, #1D325F 0%, #0E1421 100%);
 
 }
 .tomorrow-info {
@@ -95,7 +95,7 @@
     display: flex;
     flex-direction: column;
     margin-top: 4rem;
-    background-color: #1D325F;
+    background:  linear-gradient(to bottom right, #1D325F 0%, #0E1421 100%);
     border-radius: 1rem;
     height: 34vh;
     align-items: flex-start;
@@ -106,4 +106,13 @@
 }
 h2 {
     margin-left: 2rem;
+}
+.tomorrow-image {
+    position: absolute;
+    right: 10rem;
+    bottom: 1.5rem;
+}
+.tomorrow-image img {
+    width: 8rem;
+    height: 8rem;
 }

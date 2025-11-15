@@ -1,6 +1,6 @@
 import "./WeeklyWeather.css"
 
-export function WeeklyWeather({ sunset, sunrise, hourlyData, tomorrowCondition }) {
+export function WeeklyWeather({ image, sunset, sunrise, hourlyData, tomorrowCondition }) {
     return (
         <div className="weekly-weather">
             <h3>Today / Week</h3>
@@ -25,7 +25,9 @@ export function WeeklyWeather({ sunset, sunrise, hourlyData, tomorrowCondition }
                     <div className="tomorrow-infop">
                         <p>{tomorrowCondition}</p>
                     </div>
-                    <img src={image} />
+                    <div className="tomorrow-image">
+                    <img src={image} alt="weather icon" />
+                    </div>
                 </div>
             </div>
             <div className="sunset-sunrise">
