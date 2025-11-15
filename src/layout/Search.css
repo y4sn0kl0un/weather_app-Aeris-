@@ -1,27 +1,82 @@
-.search {
+/* ============================================
+   SEARCH - ПОИСК
+============================================ */
+
+.search-container {
+    position: relative;
 }
-text {
-    text-align: left;
-}
+
 input {
     display: flex;
-    width: 30rem;
     padding: 0.8rem;
     border: 2px solid transparent;
     border-radius: 20px;
-    margin-top: 10px;
     background-color: #0E1421;
     text-align: left;
+    color: white;
 }
-input::placeholder {
-    display: flex;
 
+input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
 }
+
 .dropdown {
     position: absolute;
     background-color: #0E1421;
     border: 1px solid #333;
-    width: 30rem;
     border-radius: 5px;
     z-index: 1111;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.dropdown-item {
+    padding: 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.dropdown-item:hover {
+    background-color: #1a2332;
+}
+
+/* ============================================
+   MOBILE (max-width: 480px)
+============================================ */
+
+@media (max-width: 480px) {
+    .search-container {
+        display: flex;
+        position: relative;
+        width: 100%;
+    }
+
+    input {
+        width: 100%;
+    }
+
+    .dropdown {
+        width: 100%;
+        left: 0;
+        top: 100%;
+        margin-top: 0.5rem;
+    }
+}
+
+/* ============================================
+   DESKTOP (min-width: 1024px)
+============================================ */
+
+@media (min-width: 1024px) {
+    input {
+        width: 30rem;
+        margin-top: 10px;
+    }
+
+    .dropdown {
+        width: 30rem;
+        left: 0;
+        top: 100%;
+        margin-top: 0.5rem;
+    }
 }

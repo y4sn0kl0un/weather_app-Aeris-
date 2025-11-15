@@ -1,3 +1,7 @@
+/* ============================================
+   WEEKLY WEATHER - ПРОГНОЗ НА НЕДЕЛЮ
+============================================ */
+
 @media (prefers-reduced-motion: no-preference) {
     .weekly-weather-info {
         animation: fadeIn 1s ease-in-out;
@@ -12,42 +16,20 @@
         }
     }
 }
+
 .weekly-weather {
     display: flex;
-    background-color: #0E1421;
-    border-radius: 50px;
-    margin-top: 40px;
-    width: 40vw;
-    height: 44vh;
     flex-direction: column;
-    flex-wrap: wrap;
-    flex-basis: auto;
-}
-.weekly-weather-info {
-    margin-left: 1rem;
-}
-.weekly-weather h3 {
-    margin-top: 2rem;
-    margin-left: 2rem;
 }
 
-.hour-info-list{
+.hour-info-list {
     display: flex;
-    flex-direction: row;
-    background:  linear-gradient(to bottom, #1D325F 0%, #0E1421 100%);
-    width: fit-content;
-    height: fit-content;
+    background: linear-gradient(to bottom, #1D325F 0%, #0E1421 100%);
     border-radius: 1rem;
-
 }
+
 .hour-card {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    margin: 1rem;
-    height: 8rem;
-    width: 3.5rem;
     background-color: transparent;
     text-align: center;
     border-radius: 20px;
@@ -55,64 +37,206 @@
 }
 
 .tomorrow-weather {
-    width: 28rem;
-    height: 8rem;
-    margin-top: 1em;
     border-radius: 1rem;
-    margin-left: 1rem;
-    display: block;
-    flex-basis: 8.5rem;
-    background:  linear-gradient(to bottom, #1D325F 0%, #0E1421 100%);
-
+    background: linear-gradient(to bottom, #1D325F 0%, #0E1421 100%);
 }
+
 .tomorrow-info {
     border-radius: 1rem;
-    align-content: center;
-    justify-content: center;
-    height: 4rem;
 }
+
 .tomorrow-info h3 {
     font-weight: bold;
+    margin: 1rem 0 0.5rem 0;
 }
 
 .tomorrow-infop {
-    margin-left: 3rem;
-    font-size: 0.8rem;
-
+    margin: 0;
 }
 
-.tomorrow-info-photo {
-    display: flex;
-    align-items: flex-end;
-    margin-left: 15rem;
-    position: relative;
-}
-.tomorrow-info-photo img {
-    width: 5rem;
-    height: 5rem;
-}
 .sunset-sunrise {
     display: flex;
-    flex-direction: column;
-    margin-top: 4rem;
-    background:  linear-gradient(to bottom right, #1D325F 0%, #0E1421 100%);
+    background: linear-gradient(to bottom right, #1D325F 0%, #0E1421 100%);
     border-radius: 1rem;
-    height: 34vh;
-    align-items: flex-start;
-    justify-content: center;
-    align-content: center;
-    justify-items: center;
-    gap: 1rem;
 }
-h2 {
-    margin-left: 2rem;
+
+.sunset-sunrise h2 {
+    margin: 0.5rem;
 }
-.tomorrow-image {
-    position: absolute;
-    right: 10rem;
-    bottom: 1.5rem;
+
+/* ============================================
+   MOBILE (max-width: 480px)
+============================================ */
+
+@media (max-width: 480px) {
+    .weekly-weather {
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .weekly-weather h3 {
+        font-size: 1.2rem;
+        margin: 0 0 0.5rem 0;
+    }
+
+    .weekly-weather-info {
+        position: relative;
+    }
+
+    .hour-info-list {
+        display: flex;
+        width: 100%;
+        height: auto;
+        overflow-x: auto;
+        padding: 0.5rem;
+        gap: 0.5rem;
+    }
+
+    .hour-card {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-width: 60px;
+        padding: 0.8rem 0.5rem;
+        gap: 0.5rem;
+    }
+
+    .hour-card .hour {
+        font-size: 0.9rem;
+    }
+
+    .hour-card img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .hour-card .temp {
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
+    .tomorrow-weather {
+        width: 100%;
+        height: auto;
+        padding: 1rem;
+        position: relative;
+    }
+
+    .tomorrow-info h3 {
+        font-size: 1.2rem;
+        margin-left: 0;
+    }
+
+    .tomorrow-infop {
+        margin-left: 0;
+        font-size: 0.9rem;
+    }
+
+    .tomorrow-image {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .tomorrow-image img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .sunset-sunrise {
+        width: 100%;
+        height: auto;
+        padding: 1rem;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .sunset-sunrise h2 {
+        font-size: 1rem;
+    }
 }
-.tomorrow-image img {
-    width: 8rem;
-    height: 8rem;
+
+/* ============================================
+   DESKTOP (min-width: 1024px)
+============================================ */
+
+@media (min-width: 1024px) {
+    .weekly-weather {
+        background-color: #0E1421;
+        border-radius: 50px;
+        margin-top: 40px;
+        width: 40vw;
+        height: 44vh;
+        flex-wrap: wrap;
+    }
+
+    .weekly-weather h3 {
+        margin-top: 2rem;
+        margin-left: 2rem;
+    }
+
+    .weekly-weather-info {
+        margin-left: 1rem;
+    }
+
+    .hour-info-list {
+        flex-direction: row;
+        width: fit-content;
+        height: fit-content;
+        padding: 0;
+    }
+
+    .hour-card {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin: 1rem;
+        height: 8rem;
+        width: 3.5rem;
+    }
+
+    .tomorrow-weather {
+        width: 28rem;
+        height: 8rem;
+        margin-top: 1rem;
+        margin-left: 1rem;
+        display: block;
+    }
+
+    .tomorrow-info {
+        align-content: center;
+        justify-content: center;
+        height: 4rem;
+    }
+
+    .tomorrow-infop {
+        margin-left: 3rem;
+        font-size: 0.8rem;
+    }
+
+    .tomorrow-image {
+        position: absolute;
+        right: 10rem;
+        bottom: 1.5rem;
+    }
+
+    .tomorrow-image img {
+        width: 8rem;
+        height: 8rem;
+    }
+
+    .sunset-sunrise {
+        flex-direction: column;
+        margin-top: 4rem;
+        height: 34vh;
+        align-items: flex-start;
+        justify-content: center;
+        padding-left: 2rem;
+        gap: 1rem;
+    }
+
+    .sunset-sunrise h2 {
+        margin-left: 0;
+    }
 }

@@ -1,3 +1,7 @@
+/* ============================================
+   HIGHLIGHTS - ДОПОЛНИТЕЛЬНАЯ ИНФОРМАЦИЯ
+============================================ */
+
 @media (prefers-reduced-motion: no-preference) {
     .highlight-cards {
         animation: fadeIn 1s ease-in-out;
@@ -12,71 +16,147 @@
         }
     }
 }
+
 .highlights {
-    display: flex;
     background-color: #0E1421;
-    flex-direction: column;
-    align-items: center;
-    align-content: center;
-    justify-items: center ;
-    justify-content: center;
-    border-radius: 50px;
-    margin-left: 49rem;
-    margin-top: 5rem;
-    width: 47vw;
-    height: 88vh;
-    flex-grow: 3;
+    border-radius: 1rem;
 }
 
 .highlights h2 {
-    margin-left: 2rem;
-    margin-bottom: 2rem;
+    margin: 1rem 0;
 }
+
 .highlight-cards {
     display: flex;
-    margin-bottom: 4rem;
-    margin-left: 3rem;
-    background-color: transparent;
-    justify-content: center;
-    align-content: center;
-    flex-flow: wrap ;
-    width: 35rem;
-    gap: 3rem;
-    padding: 1rem;
-    justify-items: stretch;
-    align-items: stretch;
-    position: absolute;
-}
-.rain {
-    min-width: 15rem;
-    min-height: 16rem;
-    position: relative;
+    flex-wrap: wrap;
 }
 
-.uv {
-    min-width: 15rem;
-    min-height: 16rem;
-}
-.wind {
-    min-width: 15rem;
-    min-height: 16rem;
-
-}
+.rain,
+.uv,
+.wind,
 .humidity {
-    min-width: 15rem;
-    min-height: 16rem;
-
+    background: linear-gradient(to bottom right, #1D325F 0%, #0E1421 100%);
+    border-radius: 1rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
 }
+
 .highlights img {
-    width: 200px;
-    height: fit-content;
+    width: 80px;
+    height: 80px;
 }
 
-.uv {
-    font-weight: bold;
-    font-size: 1rem;
-}
 .value p {
-    font-size: 10rem;
+    font-size: 2rem;
     font-weight: bold;
+    margin: 0.5rem 0;
+}
+
+.label {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* ============================================
+   MOBILE (max-width: 480px)
+============================================ */
+
+@media (max-width: 480px) {
+    .highlights {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        margin-top: 1rem;
+        padding: 1rem;
+    }
+
+    .highlights h2 {
+        font-size: 1.2rem;
+        margin-left: 0;
+    }
+
+    .highlight-cards {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        width: 100%;
+    }
+
+    .rain,
+    .uv,
+    .wind,
+    .humidity {
+        min-height: 150px;
+        width: 100%;
+    }
+
+    .highlights img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .value p {
+        font-size: 2rem;
+    }
+
+    .label {
+        font-size: 0.8rem;
+        text-align: center;
+    }
+}
+
+/* ============================================
+   DESKTOP (min-width: 1024px)
+============================================ */
+
+@media (min-width: 1024px) {
+    .highlights {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50px;
+        width: 47vw;
+        height: 88vh;
+    }
+
+    .highlights h2 {
+        margin-left: 2rem;
+        margin-bottom: 2rem;
+        align-self: flex-start;
+    }
+
+    .highlight-cards {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        flex-wrap: wrap;
+        width: 50rem;
+        gap: 3rem;
+        padding: 1rem;
+    }
+
+    .rain,
+    .uv,
+    .wind,
+    .humidity {
+        min-width: 15rem;
+        min-height: 16rem;
+    }
+
+    .highlights img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .value p {
+        font-size: 4rem;
+    }
+
+    .label {
+        font-size: 1rem;
+    }
 }

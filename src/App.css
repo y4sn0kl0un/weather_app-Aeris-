@@ -1,27 +1,92 @@
+
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .weather-info,
+    .weekly-weather-info,
+    .highlight-cards {
+        animation: fadeIn 1s ease-in-out;
+    }
+}
+
+
 .layout {
     display: flex;
 }
 
-.search {
-   position: relative;
-}
-.weather {
-  position: absolute;
-}
-.profile {
-  position: absolute;
-  right: 0;
-}
-.highlights {
- position: absolute;
-}
-.loading {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
+.loading,
 .error {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, -50%);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+@media (max-width: 480px) {
+    .layout {
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .search {
+        order: 1;
+        position: relative;
+        z-index: 1111;
+    }
+
+    .weather {
+        order: 2;
+        position: relative;
+    }
+
+    .profile {
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+        z-index: 1000;
+    }
+
+    .highlights {
+        order: 4;
+        position: relative;
+    }
+}
+
+
+
+@media (min-width: 1024px) {
+    .layout {
+        display: flex;
+    }
+
+    .search {
+        position: relative;
+    }
+
+    .weather {
+        position: absolute;
+    }
+
+    .profile {
+        position: absolute;
+        right: 0;
+    }
+
+    .highlights {
+        position: relative;
+        left: 10rem;
+        top: 4.5rem;
+    }
 }

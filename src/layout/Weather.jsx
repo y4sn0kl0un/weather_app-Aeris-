@@ -35,21 +35,22 @@ export  function Weather({currentLocation,
                     <h1>{temperature}</h1>
                     <h4>High:{highDegree} Low:{lowDegree}</h4>
                 </div>
-
             </div>
+                <div className="icon-con">
+                    <div className="weather-icon">
+                        <img src={image} alt="" />
+                    </div>
 
+                    <div className="condition">
+                        {condition}
+                        <p>Feels like: {feelDegree}</p>
+                    </div>
 
-            <div className="icon-con">
-                <div className="weather-icon">
-                    <img src={image} alt="" />
                 </div>
 
-                <div className="condition">
-                    {condition}
-                    <p>Feels like: {feelDegree}</p>
-                </div>
 
-            </div>
+
+
 
         </div>
 
