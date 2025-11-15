@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 import "./App.css";
 
 function App() {
-    const API_URL = "https://alternately-nonpejorative-maisha.ngrok-free.dev";
+    const API_URL = "https://aeris-75gf.onrender.com";
 
     const [weatherData, setWeatherData] = useState({
         city: "Seoul",
