@@ -8,12 +8,18 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+.idea/
+Aeris/
+node_modules/
+.DS_Store
+main.py
 build/
 develop-eggs/
-#dist/
+dist/
 downloads/
 eggs/
 .eggs/
+eslint.config.js
 lib/
 lib64/
 parts/

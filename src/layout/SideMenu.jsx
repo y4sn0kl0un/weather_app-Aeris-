@@ -1,4 +1,4 @@
-import "./sidemenu.css";
+import "./Sidemenu.css";
 
 export function SideMenu({image}) {
   return (
