@@ -24,7 +24,7 @@
 
 .hour-info-list {
     display: flex;
-    background: linear-gradient(to bottom, #1D325F 0%, #0E1421 100%);
+    background: linear-gradient(to top, #1D325F 0%, #0E1421 100%);
     border-radius: 1rem;
 }
 
@@ -38,7 +38,7 @@
 
 .tomorrow-weather {
     border-radius: 1rem;
-    background: linear-gradient(to bottom, #1D325F 0%, #0E1421 100%);
+    background: linear-gradient(to top, #1D325F 0%, #0E1421 100%);
 }
 
 .tomorrow-info {
@@ -56,7 +56,8 @@
 
 .sunset-sunrise {
     display: flex;
-    background: linear-gradient(to bottom right, #1D325F 0%, #0E1421 100%);
+
+    background: linear-gradient(to top, #1D325F 0%, #0E1421 100%);
     border-radius: 1rem;
 }
 
