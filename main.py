@@ -266,4 +266,4 @@ def get_weather(city: str):
 
     return response
 
-
+#authorization
