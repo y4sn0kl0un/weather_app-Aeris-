@@ -2,6 +2,12 @@ from fastapi import FastAPI, HTTPException, Request, Response
 import requests
 from fastapi.middleware.cors import CORSMiddleware
 import uuid
+import os
+from urllib.parse import urlencode
+from fastapi.responses import RedirectResponse
+from jose import jwt
+from dotenv import load_dotenv
+load_dotenv()
 
 app = FastAPI()
 
@@ -14,6 +20,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
+REDIRECT_URI = os.getenv("GOOGLE_REDIRECT_URI")
 
 sessions = {}
 
@@ -81,7 +90,47 @@ WEATHER_CODES = {
     99: "Severe thunderstorm with hail",
 }
 
+@app.get("/auth/google/login")
+def google_login():
+    params = {
+        "client_id": CLIENT_ID,
+        "redirect_uri": REDIRECT_URI,
+        "response_type": "code",
+        "scope": "openid email profile",
+        "state": "random_string"
+    }
 
+    url = "https://accounts.google.com/o/oauth2/v2/auth?" + urlencode(params)
+
+    return RedirectResponse(url)
+
+@app.get("/auth/google/callback")
+def google_callback(code: str):
+    token_url = "https://oauth2.googleapis.com/token"
+
+    data = {
+        "code": code,
+        "client_id": CLIENT_ID,
+        "client_secret": CLIENT_SECRET,
+        "redirect_uri": REDIRECT_URI,
+        "grant_type": "authorization_code"
+    }
+
+    r = requests.post(token_url, data=data)
+    tokens = r.json()
+
+    print("TOKENS:", tokens)
+
+    id_token = tokens.get("id_token")
+
+    if not id_token:
+        raise HTTPException(400, "Google did not return id_token")
+
+    user_info = jwt.get_unverified_claims(id_token)
+    print("USER_INFO:",user_info)
+
+    #TODO: save user in database
+    return {"google_user": user_info}
 @app.get("/test")
 def test():
     return {"city": "Moscow",
