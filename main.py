@@ -179,7 +179,7 @@ WEATHER_CODES = {
     
 
 @app.get("/api")
-def async home():
+async def home():
 
     lat = 37.57
     lon = 126.98
