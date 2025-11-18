@@ -92,7 +92,7 @@ def google_callback(code: str, db: Session = Depends(get_db)):
     }
     token = jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALG)
 
-    froentend_url = f"https://aeris-frontend-gh0t.onrender.com/auth/callback?token={token}"
+    frontend_url = f"https://aeris-frontend-gh0t.onrender.com/auth/callback?token={token}"
     return RedirectResponse(frontend_url)
 
 
