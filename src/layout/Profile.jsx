@@ -57,9 +57,11 @@ export function Profile({ image, username, isAuthenticated, onLogin, onLogout })
                 <div className="dropdown" onClick={(e) => e.stopPropagation()}>
                     {!isAuthenticated ? (
                         <div className="dropdown-item" onClick={handleLogin}>
-                            <div className="item-name">
-                                <a href="/auth/google/login"> Login via Google</a>
-                            </div>
+                            <button
+                                onClick={() => {
+                                    window.location.href = "https://your-backend.com/auth/google/login";
+                                }}
+                            > Login via Google</button>
                         </div>
                     ) : (
                         <>
