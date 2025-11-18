@@ -70,12 +70,12 @@ function App() {
 
     const getCurrentHour = (timeString) => {
         const date = new Date(timeString);
-        return date.getHours() + ':00';
+        return date.getHours() + 'PM' || date.getHours() + 'AM';
     };
 
     const formatHourTime = (isoString) => {
         const date = new Date(isoString);
-        return date.getHours() + ':00';
+        return date.getHours() + 'PM' || date.getHours() + 'AM';
     };
 
     const formatSunTime = (isoString) => {
@@ -89,15 +89,13 @@ function App() {
         if (typeof isoString === 'number') {
             const date = new Date(isoString * 1000);
             const hours = date.getHours().toString().padStart(2, '0');
-            const minutes = date.getMinutes().toString().padStart(2, '0');
-            return `${hours}:${minutes}`;
+            return `${hours}`;
         }
 
         try {
             const date = new Date(isoString);
             const hours = date.getHours().toString().padStart(2, '0');
-            const minutes = date.getMinutes().toString().padStart(2, '0');
-            return `${hours}:${minutes}`;
+            return `${hours}`;
         } catch (e) {
             console.error('Error formatting sun time:', e);
             return '';

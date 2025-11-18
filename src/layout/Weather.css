@@ -143,6 +143,7 @@
 @media (min-width: 1024px) {
     .weather-info {
         margin-top: 20px;
+        min-width: 548px;
         width: 40vw;
         height: 40vh;
     }

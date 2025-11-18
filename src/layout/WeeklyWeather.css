@@ -166,6 +166,7 @@ img {
         background-color: #0E1421;
         border-radius: 50px;
         margin-top: 40px;
+        min-width: 548px;
         width: 40vw;
         height: 44vh;
         flex-wrap: wrap;
