@@ -59,7 +59,7 @@ export function Profile({ image, username, isAuthenticated, onLogin, onLogout })
     const handleGoogleLogin = (e) => {
         e.stopPropagation();
         // Редирект на ваш бэкенд для начала OAuth flow
-        window.location.href = "http://your-backend.com/auth/google/login";
+        window.location.href = "https://aeris-75gf.onrender.com/auth/google/login";
     };
 
     const handleLogout = (e) => {
