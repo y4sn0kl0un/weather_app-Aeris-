@@ -1,20 +1,25 @@
-from fastapi import FastAPI, HTTPException, Request, Response
-import requests
+from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
-import uuid
+from fastapi.responses import RedirectResponse
+from sqlalchemy.orm import Session
+import requests
 import os
 from urllib.parse import urlencode
-from fastapi.responses import RedirectResponse
+from datetime import datetime, timedelta
 from jose import jwt
 from dotenv import load_dotenv
+
+from database import get_db, engine
+from models import Base, User, Bookmark
+
 load_dotenv()
 
 app = FastAPI()
-
+Base.metadata.create_all(bind=engine)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -23,48 +28,128 @@ app.add_middleware(
 CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
 REDIRECT_URI = os.getenv("GOOGLE_REDIRECT_URI")
+JWT_SECRET = os.getenv("JWT_SECRET", "testsecret")
+JWT_ALG = "HS256"
 
-sessions = {}
 
-def get_session_id(request: Request):
-    return request.cookies.get("session_id")
+@app.get("/auth/google/login")
+def google_login():
+    params = {
+        "client_id": CLIENT_ID,
+        "redirect_uri": REDIRECT_URI,
+        "response_type": "code",
+        "scope": "openid email profile",
+        "state": "xyz"
+    }
+    url = "https://accounts.google.com/o/oauth2/v2/auth?" + urlencode(params)
+    return RedirectResponse(url)
 
-def get_or_create_session_id(request: Request, response: Response):
-    session_id = get_session_id(request)
-    if not session_id or session_id not in sessions:
-        session_id = str(uuid.uuid4())
-        sessions[session_id] = {"bookmarks": []}
-        response.set_cookie("session_id", session_id, httponly=True)
 
-    return session_id
+@app.get("/auth/google/callback")
+def google_callback(code: str, db: Session = Depends(get_db)):
+    token_data = {
+        "code": code,
+        "client_id": CLIENT_ID,
+        "client_secret": CLIENT_SECRET,
+        "redirect_uri": REDIRECT_URI,
+        "grant_type": "authorization_code"
+    }
+
+    tokens = requests.post("https://oauth2.googleapis.com/token", data=token_data).json()
+    id_token = tokens.get("id_token")
+    if not id_token:
+        raise HTTPException(400, "Invalid Google login")
+
+    google_user = jwt.get_unverified_claims(id_token)
+
+    google_id = google_user["sub"]
+    email = google_user.get("email")
+    name = google_user.get("name")
+    picture = google_user.get("picture")
+
+    user = db.query(User).filter(User.google_id == google_id).first()
+
+    if not user:
+        user = User(
+            google_id=google_id,
+            email=email,
+            name=name,
+            picture=picture,
+            created_at=datetime.utcnow(),
+            last_login=datetime.utcnow(),
+        )
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+    else:
+        user.last_login = datetime.utcnow()
+        db.commit()
+
+    payload = {
+        "user_id": user.id,
+        "exp": datetime.utcnow() + timedelta(days=7)
+    }
+    token = jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALG)
+
+    return {"token": token, "user": {
+        "id": user.id,
+        "email": user.email,
+        "name": user.name,
+        "picture": user.picture
+    }}
+
+
+def get_current_user(authorization: str = Depends(lambda: None), db: Session = Depends(get_db)):
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(401, "Not authenticated")
+
+    token = authorization.split(" ")[1]
+
+    try:
+        data = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALG])
+    except:
+        raise HTTPException(401, "Invalid token")
+
+    user = db.query(User).filter(User.id == data["user_id"]).first()
+    if not user:
+        raise HTTPException(401, "User not found")
+
+    return user
 
 
 @app.get("/bookmarks")
-def bookmarks_list(request: Request, response: Response):
-    session_id = get_or_create_session_id(request, response)
-    bookmarks = sessions[session_id]["bookmarks"]
+def get_bookmarks(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    bookmarks = db.query(Bookmark).filter(Bookmark.user_id == current_user.id).all()
+    return [b.city_name for b in bookmarks]
 
-    return {"bookmarks": bookmarks}
 
-@app.get("/bookmarks/add")
-def add_bookmarks(request: Request, response: Response, city: str):
-    session_id = get_or_create_session_id(request, response)
-    bookmarks = sessions[session_id]["bookmarks"]
-
+@app.post("/bookmarks/add")
+def add_bookmark(city: str, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     city = city.strip().title()
-    if city not in bookmarks:
-        bookmarks.append(city)
-    return {"bookmarks": bookmarks}
+    exists = db.query(Bookmark).filter(
+        Bookmark.user_id == current_user.id,
+        Bookmark.city_name == city
+    ).first()
 
-@app.get("/bookmarks/delete")
-def delete_bookmarks(request: Request, response: Response, city: str):
-    session_id = get_or_create_session_id(request, response)
-    bookmarks = sessions[session_id]["bookmarks"]
+    if exists:
+        return {"message": "Already exists"}
 
-    city = city.strip().title()
-    if city in bookmarks:
-        bookmarks.remove(city)
-    return {"bookmarks": bookmarks}
+    b = Bookmark(user_id=current_user.id, city_name=city)
+    db.add(b)
+    db.commit()
+
+    return {"message": "Added", "city": city}
+
+
+@app.delete("/bookmarks/delete")
+def delete_bookmark(city: str, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    deleted = db.query(Bookmark).filter(
+        Bookmark.user_id == current_user.id,
+        Bookmark.city_name == city
+    ).delete()
+
+    db.commit()
+    return {"deleted": bool(deleted)}
 
 WEATHER_CODES = {
     0: "Clear sky",
@@ -90,51 +175,6 @@ WEATHER_CODES = {
     99: "Severe thunderstorm with hail",
 }
 
-@app.get("/auth/google/login")
-def google_login():
-    params = {
-        "client_id": CLIENT_ID,
-        "redirect_uri": REDIRECT_URI,
-        "response_type": "code",
-        "scope": "openid email profile",
-        "state": "random_string"
-    }
-
-    url = "https://accounts.google.com/o/oauth2/v2/auth?" + urlencode(params)
-
-    return RedirectResponse(url)
-
-@app.get("/auth/google/callback")
-def google_callback(code: str):
-    token_url = "https://oauth2.googleapis.com/token"
-
-    data = {
-        "code": code,
-        "client_id": CLIENT_ID,
-        "client_secret": CLIENT_SECRET,
-        "redirect_uri": REDIRECT_URI,
-        "grant_type": "authorization_code"
-    }
-
-    r = requests.post(token_url, data=data)
-    tokens = r.json()
-
-    print("TOKENS:", tokens)
-
-    id_token = tokens.get("id_token")
-
-    if not id_token:
-        raise HTTPException(400, "Google did not return id_token")
-
-    user_info = jwt.get_unverified_claims(id_token)
-    print("USER_INFO:",user_info)
-
-    #TODO: save user in database
-    return {"google_user": user_info}
-@app.get("/test")
-def test():
-    return {"city": "Moscow",
-            "temperature": 32}
     
 
 @app.get("/api")
