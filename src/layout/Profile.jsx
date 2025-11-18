@@ -58,7 +58,7 @@ export function Profile({ image, username, isAuthenticated, onLogin, onLogout })
                     {!isAuthenticated ? (
                         <div className="dropdown-item" onClick={handleLogin}>
                             <div className="item-name">
-                                <a href="google_login"> Login with Google</a>
+                                <a href="/auth/google/login"> Login via Google</a>
                             </div>
                         </div>
                     ) : (
