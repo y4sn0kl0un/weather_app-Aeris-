@@ -1,6 +1,6 @@
 import "./SideMenu.css";
 
-export function SideMenu({image}) {
+export function SideMenu({city, temperature, image}) {
   return (
     <aside>
         <div className="side-container">
@@ -12,12 +12,12 @@ export function SideMenu({image}) {
                 <div className="city-container">
 
                     <div className="city-name">
-                        <h2>City</h2>
+                        <h2>{city}</h2>
 
                     </div>
 
                     <div className="city-temp">
-                        <p>20*</p>
+                        <p>{temperature}</p>
 
 
                     </div>

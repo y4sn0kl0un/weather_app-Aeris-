@@ -195,7 +195,10 @@ function App() {
         <>
             <div className="layout">
                 <div className="sidemenu">
-                    <SideMenu image="/logo.svg"/>
+                    <SideMenu image="/logo.svg"
+                    city={weatherData.city}
+                    temperature={`${weatherData.temperature}°`}
+                    />
                 </div>
                 <div className="search">
                     <Search onCitySelect={fetchWeatherData} />
