@@ -8,6 +8,7 @@ from urllib.parse import urlencode
 from datetime import datetime, timedelta
 from jose import jwt
 from dotenv import load_dotenv
+from httpx import AsyncClient
 
 from database import get_db, engine
 from models import Base, User, Bookmark
@@ -178,7 +179,7 @@ WEATHER_CODES = {
     
 
 @app.get("/api")
-def home():
+def async home():
 
     lat = 37.57
     lon = 126.98
@@ -194,12 +195,13 @@ def home():
         "hourly": "temperature_2m,weathercode,relative_humidity_2m,precipitation_probability,uv_index",
         "daily": "temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_probability_max",
     }
+    
+    async with httpx.AsyncClient() as client:
+        weather_response = await client.get(weather_url, params=weather_params)
+        if weather_response.status_code != 200:
+            raise HTTPException(status_code=400, detail="Weather API request failed")
 
-    weather_response = requests.get(weather_url, params=weather_params)
-    if weather_response.status_code != 200:
-        raise HTTPException(status_code=400, detail="Weather API request failed")
-
-    data = weather_response.json()
+        data = weather_response.json()
 
     current = data["current_weather"]
     current_code = current["weathercode"]
