@@ -1,6 +1,4 @@
-/* ============================================
-   WEEKLY WEATHER - ПРОГНОЗ НА НЕДЕЛЮ
-============================================ */
+
 
 @media (prefers-reduced-motion: no-preference) {
     .weekly-weather-info {
@@ -24,13 +22,14 @@
 
 .hour-info-list {
     display: flex;
-    background: linear-gradient(to top, #1D325F 0%, #0E1421 100%);
     border-radius: 1rem;
+    background-color: #0E1421;
+    justify-content: center;
 }
 
 .hour-card {
     display: flex;
-    background-color: transparent;
+    background: linear-gradient(to top, #1D325F 0%, #0E1421 100%);
     text-align: center;
     border-radius: 20px;
     border: 1px solid white;
@@ -38,7 +37,7 @@
 
 .tomorrow-weather {
     border-radius: 1rem;
-    background: linear-gradient(to top, #1D325F 0%, #0E1421 100%);
+    background-color: #0E1421;
 }
 
 .tomorrow-info {
@@ -56,8 +55,7 @@
 
 .sunset-sunrise {
     display: flex;
-
-    background: linear-gradient(to top, #1D325F 0%, #0E1421 100%);
+    background-color: #0E1421;
     border-radius: 1rem;
 }
 
@@ -65,19 +63,16 @@
     margin: 0.5rem;
 }
 
-/* ============================================
-   MOBILE (max-width: 480px)
-============================================ */
 
 @media (max-width: 480px) {
     .weekly-weather {
         gap: 1rem;
         margin-top: 1rem;
+        margin-left: 2.5vw;
     }
 
     .weekly-weather h3 {
         font-size: 1.2rem;
-        margin: 0 0 0.5rem 0;
     }
 
     .weekly-weather-info {
@@ -90,7 +85,7 @@
         height: auto;
         overflow-x: auto;
         padding: 0.5rem;
-        gap: 0.5rem;
+        gap: 1rem;
     }
 
     .hour-card {
@@ -158,9 +153,6 @@
     }
 }
 
-/* ============================================
-   DESKTOP (min-width: 1024px)
-============================================ */
 
 @media (min-width: 1024px) {
     .weekly-weather {
@@ -193,33 +185,43 @@
         align-items: center;
         justify-content: center;
         margin: 1rem;
-        height: 8rem;
-        width: 3.5rem;
+        height: 14vh;
+        width: 3.5vw;
     }
 
     .tomorrow-weather {
-        width: 28rem;
-        height: 8rem;
-        margin-top: 1rem;
-        margin-left: 1rem;
-        display: block;
+        width: 28vw;
+        height: 16vh;
+        display: flex;
+        position: relative;
+        flex-direction: row;
     }
 
     .tomorrow-info {
         align-content: center;
         justify-content: center;
-        height: 4rem;
+        height: 16vh;
+        width: 28vw;
+        display: flex;
+        flex-direction: column;
+        margin-left: 1vw;
+
     }
 
     .tomorrow-infop {
-        margin-left: 3rem;
+        height: 3vh;
+        width: 20vw;
+        margin-left: 3vw;
         font-size: 0.8rem;
+        display: flex;
     }
 
     .tomorrow-image {
-        position: absolute;
-        right: 10rem;
-        bottom: 1.5rem;
+        position: relative;
+        width: 12vw;
+        height: 12vh;
+        left: 18vw;
+        bottom: 10vh;
     }
 
     .tomorrow-image img {
@@ -230,14 +232,10 @@
     .sunset-sunrise {
         flex-direction: column;
         margin-top: 4rem;
-        height: 34vh;
-        align-items: flex-start;
-        justify-content: center;
-        padding-left: 2rem;
-        gap: 1rem;
+        height: 30vh;
+        width: 8vw;
     }
 
-    .sunset-sunrise h2 {
-        margin-left: 0;
-    }
+
+
 }

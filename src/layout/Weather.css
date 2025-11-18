@@ -1,6 +1,4 @@
-/* ============================================
-   WEATHER INFO - ОСНОВНАЯ ИНФОРМАЦИЯ О ПОГОДЕ
-============================================ */
+
 
 @media (prefers-reduced-motion: no-preference) {
     .weather-info {
@@ -23,12 +21,12 @@
     flex-wrap: wrap;
     background-color: #0E1421;
     border-radius: 50px;
+
 }
 
 .current-location {
     display: flex;
     align-items: center;
-    justify-content: left;
 }
 
 .current-location h4 {
@@ -77,28 +75,27 @@
 
 @media (max-width: 480px) {
     .weather-info {
-        width: 100%;
-        height: auto;
-        min-height: 35vh;
-        padding: 1.5rem;
-        margin-top: 1rem;
+        width: 95vw;
+        height: 40vh;
+        left: 1rem;
+        margin-left: 2.5vw;
+
     }
 
     .current-location {
         position: relative;
-        top: 0;
-        left: 0;
-        margin-bottom: 1rem;
+        margin-top: 2vh;
+        margin-left: 6vw;
     }
 
     .current-location h4 {
-        font-size: 0.8rem;
+        font-size: 1rem;
     }
 
     .day-temp {
         position: relative;
-        top: 0;
-        left: 0;
+        margin-top: 16vh;
+        margin-left: 6vw;
     }
 
     .date h2 {
@@ -111,24 +108,24 @@
 
     .icon-con {
         position: relative;
-        top: 0;
-        left: 0;
-        align-items: center;
-        margin-top: 1rem;
+        height: 27vh;
+        width: 50vw;
+        right: 20vw;
     }
 
     .weather-icon {
         display: flex;
-        justify-content: center;
+
+
     }
 
     .weather-icon img {
-        width: 150px;
-        height: 100px;
+        width: 40vw;
+        height: 20vh;
     }
 
     .condition {
-        font-size: 1rem;
+        font-size: 20px;
         margin-left: 0;
         text-align: center;
     }

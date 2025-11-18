@@ -92,11 +92,11 @@ export function Search({ onCitySelect }) {
             </div>
 
             {dropdown && (
-                <div className="dropdown">
+                <div className="sdropdown">
                     {results.map((city, index) => (
                         <div
                             key={`${city.name}-${city.country}-${index}`}
-                            className="dropdown-item"
+                            className="sdropdown-item"
                             onClick={() => handleSelect(city)}
                         >
                             <div className="city-name">{city.name}</div>
@@ -106,7 +106,7 @@ export function Search({ onCitySelect }) {
             )}
 
             {searchCity.length >= 2 && !loading && results.length === 0 && !dropdown && (
-                <div className="dropdown">
+                <div className="sdropdown">
                     <div className="dropdown-item no-results">
                         Город не найден
                     </div>

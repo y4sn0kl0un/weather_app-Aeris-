@@ -1,7 +1,7 @@
 import "./Weather.css"
 import {useEffect, useState} from "react";
 export  function Weather({currentLocation,
-                             image, date, weakDay, temperature,
+                             image, date, temperature,
                              feelDegree, condition, lowDegree, highDegree}) {
 
     const API_URL = "https://alternately-nonpejorative-maisha.ngrok-free.dev/weather ";
@@ -15,7 +15,7 @@ export  function Weather({currentLocation,
                 console.log(data);
                 setData(data);
             });
-    },[])
+    },[data])
   return (
 
         <div className="weather-info">
@@ -25,9 +25,6 @@ export  function Weather({currentLocation,
                 <h4>{currentLocation}</h4>
             </div>
             <div className="day-temp">
-                <div className="day">
-                    <h2>{weakDay}</h2>
-                </div>
                 <div className="date">
                     <h2>{date}</h2>
                 </div>

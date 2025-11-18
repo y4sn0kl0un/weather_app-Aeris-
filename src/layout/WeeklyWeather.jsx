@@ -24,12 +24,13 @@ export function WeeklyWeather({ image, sunset, sunrise, hourlyData, tomorrowCond
                     <h3>Tomorrow</h3>
                     <div className="tomorrow-infop">
                         <p>{tomorrowCondition}</p>
-                        <div className="tomorrow-image">
+                    </div>
+
+                    <div className="tomorrow-image">
                             <img src={image} alt="weather icon" />
                         </div>
                     </div>
 
-                </div>
             </div>
             <div className="sunset-sunrise">
                 <div className="sunrise">

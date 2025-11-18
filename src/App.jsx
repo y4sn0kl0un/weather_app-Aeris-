@@ -10,6 +10,10 @@ import "./App.css";
 function App() {
     const API_URL = "https://aeris-75gf.onrender.com";
 
+    // ✅ Добавили состояние авторизации
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [currentUser, setCurrentUser] = useState(null);
+
     const [weatherData, setWeatherData] = useState({
         city: "Seoul",
         weekDay: "",
@@ -32,6 +36,22 @@ function App() {
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    // ✅ Проверка авторизации при загрузке приложения
+    useEffect(() => {
+        const user = localStorage.getItem('user');
+        if (user) {
+            try {
+                const parsedUser = JSON.parse(user);
+                setIsAuthenticated(true);
+                setCurrentUser(parsedUser);
+                console.log('User logged in:', parsedUser);
+            } catch (e) {
+                console.error('Error parsing user data:', e);
+                localStorage.removeItem('user');
+            }
+        }
+    }, []);
 
     const getWeekDay = (dateString) => {
         const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -58,13 +78,11 @@ function App() {
     const formatSunTime = (isoString) => {
         if (!isoString) return '';
 
-        // Если это ISO строка с датой и временем
         if (typeof isoString === 'string' && isoString.includes('T')) {
             const time = isoString.split('T')[1].slice(0, 5);
             return time;
         }
 
-        // Если это timestamp
         if (typeof isoString === 'number') {
             const date = new Date(isoString * 1000);
             const hours = date.getHours().toString().padStart(2, '0');
@@ -72,7 +90,6 @@ function App() {
             return `${hours}:${minutes}`;
         }
 
-        // Попытка обработать как Date объект
         try {
             const date = new Date(isoString);
             const hours = date.getHours().toString().padStart(2, '0');
@@ -149,6 +166,19 @@ function App() {
             });
     };
 
+    // ✅ Функции для логина и логаута
+    const handleLogin = (user) => {
+        setIsAuthenticated(true);
+        setCurrentUser(user);
+        console.log('User logged in:', user);
+    };
+
+    const handleLogout = () => {
+        setIsAuthenticated(false);
+        setCurrentUser(null);
+        console.log('User logged out');
+    };
+
     useEffect(() => {
         fetchWeatherData("Seoul");
     }, []);
@@ -181,6 +211,8 @@ function App() {
                             feelDegree={`${weatherData.feelDegree}°`}
                             lowDegree={`${weatherData.lowDegree}°`}
                             highDegree={`${weatherData.highDegree}°`}
+                            isAuthenticated={isAuthenticated}
+                            userId={currentUser?.id}
                         />
                         <WeeklyWeather
                             hourlyData={weatherData.hourlyData}
@@ -192,9 +224,13 @@ function App() {
                     </div>
                 </div>
 
-                <div className="profile">
-                    <Profile image="/default.svg" username="user" />
-                </div>
+                <Profile
+                    image="/default.svg"
+                    username={currentUser?.username || "user"}
+                    isAuthenticated={isAuthenticated}
+                    onLogin={handleLogin}
+                    onLogout={handleLogout}
+                />
 
                 <Highlights
                     rain={"/Sun.svg"}

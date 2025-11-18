@@ -7,7 +7,7 @@ input {
     display: flex;
     padding: 0.8rem;
     border: 2px solid transparent;
-    border-radius: 20px;
+    border-radius: 50px;
     background-color: #0E1421;
     text-align: left;
     color: white;
@@ -17,7 +17,7 @@ input::placeholder {
     color: rgba(255, 255, 255, 0.5);
 }
 
-.dropdown {
+.sdropdown {
     position: absolute;
     background-color: #0E1421;
     border: 1px solid #333;
@@ -27,13 +27,13 @@ input::placeholder {
     overflow-y: auto;
 }
 
-.dropdown-item {
+.sdropdown-item {
     padding: 0.8rem;
     cursor: pointer;
     transition: background-color 0.2s;
 }
 
-.dropdown-item:hover {
+.sdropdown-item:hover {
     background-color: #1a2332;
 }
 
@@ -42,16 +42,18 @@ input::placeholder {
 @media (max-width: 480px) {
     .search-container {
         display: flex;
-        position: relative;
-        width: 100%;
+        width: 60vw;
+        left: 3vw;
+        bottom: 1vh;
     }
 
     input {
-        width: 100%;
+        width: 60vw;
+        height: 6vh;
     }
 
-    .dropdown {
-        width: 100%;
+    .sdropdown {
+        width: 60vw;
         left: 0;
         top: 100%;
         margin-top: 0.5rem;
@@ -65,7 +67,7 @@ input::placeholder {
         margin-top: 10px;
     }
 
-    .dropdown {
+    .sdropdown {
         width: 30rem;
         left: 0;
         top: 100%;

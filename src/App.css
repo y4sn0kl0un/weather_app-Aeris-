@@ -1,13 +1,30 @@
+/* ============================================
+   СБРОС И БАЗОВЫЕ СТИЛИ
+============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
+html, body {
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-color: #0B0E1A;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
+#root {
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -21,72 +38,62 @@
 
 .layout {
     display: flex;
+    width: 100%;
+    max-width: 100vw;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
 .loading,
 .error {
-    position: absolute;
+    position: fixed;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    z-index: 9999;
+    background-color: #0E1421;
+    padding: 2rem;
+    border-radius: 20px;
+    font-size: 1.2rem;
 }
-
 
 @media (max-width: 480px) {
     .layout {
-        display: flex;
         flex-direction: column;
+        flex-wrap: nowrap;
         padding: 1rem;
         gap: 1rem;
     }
 
-    .search {
-        order: 1;
-        position: relative;
-        z-index: 1111;
-    }
-
-    .weather {
-        order: 2;
-        position: relative;
+    .sidemenu {
+        order: -2;
+        width: 100%;
     }
 
     .profile {
+        order: -1;
         position: absolute;
         right: 1rem;
         top: 1rem;
         z-index: 1000;
     }
 
-    .highlights {
-        order: 4;
-        position: relative;
-    }
-}
-
-
-
-@media (min-width: 1024px) {
-    .layout {
-        display: flex;
-    }
-
     .search {
-        position: relative;
+        order: 1;
+        width: 100%;
     }
 
     .weather {
-        position: absolute;
-    }
-
-    .profile {
-        position: absolute;
-        right: 0;
+        order: 2;
+        width: 100%;
     }
 
     .highlights {
+        order: 3;
+        width: 100%;
         position: relative;
-        left: 10rem;
-        top: 4.5rem;
+        left: 0;
     }
 }
+
+
