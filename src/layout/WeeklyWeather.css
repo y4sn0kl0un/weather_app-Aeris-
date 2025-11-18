@@ -15,6 +15,11 @@
     }
 }
 
+img {
+    width: 27px;
+    height: 27px;
+}
+
 .weekly-weather {
     display: flex;
     flex-direction: column;
@@ -24,7 +29,7 @@
     display: flex;
     border-radius: 1rem;
     background-color: #0E1421;
-    justify-content: center;
+    justify-content: space-evenly;
 }
 
 .hour-card {
@@ -66,13 +71,15 @@
 
 @media (max-width: 480px) {
     .weekly-weather {
-        gap: 1rem;
-        margin-top: 1rem;
-        margin-left: 2.5vw;
+        gap: 2vh;
+        position: relative;
+        justify-content: center;
+        bottom: 6vh;
     }
 
     .weekly-weather h3 {
-        font-size: 1.2rem;
+        font-size: 6vw;
+        margin-top: 1vh;
     }
 
     .weekly-weather-info {
@@ -84,8 +91,8 @@
         width: 100%;
         height: auto;
         overflow-x: auto;
-        padding: 0.5rem;
-        gap: 1rem;
+        gap: 3vw;
+        justify-content: space-evenly;
     }
 
     .hour-card {
@@ -130,14 +137,14 @@
 
     .tomorrow-image {
         position: absolute;
-        right: 1rem;
-        top: 50%;
+        right: 0;
+        top: 6vh;
         transform: translateY(-50%);
     }
 
     .tomorrow-image img {
-        width: 60px;
-        height: 60px;
+        width: 20vw;
+        height: 20vh;
     }
 
     .sunset-sunrise {

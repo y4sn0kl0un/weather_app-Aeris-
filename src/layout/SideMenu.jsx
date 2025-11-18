@@ -18,8 +18,6 @@ export function SideMenu({city, temperature, image}) {
 
                     <div className="city-temp">
                         <p>{temperature}</p>
-
-
                     </div>
 
 

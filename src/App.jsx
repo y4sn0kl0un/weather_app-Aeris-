@@ -5,6 +5,9 @@ import { WeeklyWeather } from "./layout/WeeklyWeather.jsx";
 import { Highlights } from "./layout/Highlights.jsx";
 import { Profile } from "./layout/Profile.jsx";
 import { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import CallbackPage from "./CallbackPage";
+
 import "./App.css";
 
 function App() {
@@ -193,6 +196,7 @@ function App() {
 
     return (
         <>
+
             <div className="layout">
                 <div className="sidemenu">
                     <SideMenu image="/logo.svg"
@@ -236,10 +240,6 @@ function App() {
                 />
 
                 <Highlights
-                    rain={"/Sun.svg"}
-                    uv={"/uv.svg"}
-                    wind={"/wind.svg"}
-                    humidity={"/humidity.svg"}
                     rainValue={weatherData.rainChance}
                     humidityValue={weatherData.humidity}
                     uvValue={weatherData.uvIndex}

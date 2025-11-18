@@ -5,7 +5,7 @@
 
 input {
     display: flex;
-    padding: 0.8rem;
+    padding: 2vh;
     border: 2px solid transparent;
     border-radius: 50px;
     background-color: #0E1421;
@@ -42,13 +42,13 @@ input::placeholder {
 @media (max-width: 480px) {
     .search-container {
         display: flex;
-        width: 60vw;
-        left: 3vw;
-        bottom: 1vh;
+        width: 30vw;
+        bottom: 8vh;
+        left: 15vw;
     }
 
     input {
-        width: 60vw;
+        width: 50vw;
         height: 6vh;
     }
 

@@ -1,18 +1,24 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
- img {
-    width: 27px;
-    height: 27px;
-    margin: 0 auto;
+
+  .logo img {
+    width: 6vw;
+    height: 7vh;
 }
 
  @media (max-width: 480px) {
-    aside{
-      display: none;
+    .side-container {
+        display: flex;
+        width: 12vw;
+        height: 6vh;
+        justify-content: center;
+        position: relative;
+        border-radius: 50px;
     }
+     .cities-logout {
+         display: none;
+     }
+     .city-container {
+         display: none;
+     }
  }
 
 @media (min-width: 1024px) {
@@ -25,7 +31,7 @@
         height: 95vh;
         align-items: center;
         border-radius: 15px;
-        width: 90px;
+        width: 6vw;
     }
     button {
         bottom: 0;
@@ -38,12 +44,16 @@
         text-align: center;
     }
     .city-container {
-        gap: 10px;
         border-radius: 1rem;
-        border: 1px solid darkviolet;
-        background: linear-gradient(to top, #1D325F 0%, #0E1421 100%);
-        width: 5vw;
+        background: linear-gradient(to bottom, #1D325F 0%, #0E1421 100%);
+        width: 6vw;
         height: 5vw;
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: column;
+    }
+    .city-name h2{
+        font-size: 0.8rem;
     }
 
 }
