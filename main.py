@@ -179,44 +179,42 @@ async def home():
 
     lat = 37.57
     lon = 126.98
-    city_name = "Seoul"
-    country_name = "South Korea"
 
-    weather_url = "https://api.open-meteo.com/v1/forecast"
-    weather_params = {
-        "latitude": lat,
-        "longitude": lon,
-        "timezone": "auto",
-        "current_weather": True,
-        "hourly": "temperature_2m,weathercode,relative_humidity_2m,precipitation_probability,uv_index",
-        "daily": "temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_probability_max",
-    }
-    
     async with httpx.AsyncClient() as client:
-        weather_response = await client.get(weather_url, params=weather_params)
-        if weather_response.status_code != 200:
-            raise HTTPException(status_code=400, detail="Weather API request failed")
+        r = await client.get(
+            "https://api.open-meteo.com/v1/forecast",
+            params={
+                "latitude": lat,
+                "longitude": lon,
+                "timezone": "auto",
+                "current_weather": True,
+                "hourly": "temperature_2m,weathercode,relative_humidity_2m,precipitation_probability,uv_index",
+                "daily": "temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_probability_max",
+            }
+        )
 
-        data = weather_response.json()
+    if r.status_code != 200:
+        raise HTTPException(400, "Weather API request failed")
 
+    data = r.json()
     current = data["current_weather"]
-    current_code = current["weathercode"]
+    code = current["weathercode"]
 
     return {
-        "city": city_name,
-        "country": country_name,
+        "city": "Seoul",
+        "country": "South Korea",
         "latitude": lat,
         "longitude": lon,
         "current": {
             "temperature": current["temperature"],
             "wind_speed": current["windspeed"],
             "wind_direction": current["winddirection"],
-            "weather_code": current_code,
-            "weather_text": WEATHER_CODES.get(current_code, "Unknown"),
+            "weather_code": code,
+            "weather_text": WEATHER_CODES.get(code, "Unknown"),
             "time": current["time"],
         },
         "hourly": {
-            "time": data["hourly"]["time"][:8], 
+            "time": data["hourly"]["time"][:8],
             "temperature_2m": data["hourly"]["temperature_2m"][:8],
             "weathercode": data["hourly"]["weathercode"][:8],
             "humidity": data["hourly"]["relative_humidity_2m"][:8],
@@ -231,46 +229,50 @@ async def home():
             "sunset": data["daily"]["sunset"],
             "uv_index_max": data["daily"]["uv_index_max"],
             "precipitation_probability_max": data["daily"]["precipitation_probability_max"],
-        },
+        }
     }
 
 @app.get("/api/weather")
-def get_weather(city: str):
+async def get_weather(city: str):
 
-    geo_url = "https://geocoding-api.open-meteo.com/v1/search"
-    geo_params = {"name": city, "count": 1}
-    geo_response = requests.get(geo_url, params=geo_params)
+    async with httpx.AsyncClient() as client:
 
-    if geo_response.status_code != 200:
-        raise HTTPException(status_code=400, detail="Geocoding API request failed")
+        geo = await client.get(
+            "https://geocoding-api.open-meteo.com/v1/search",
+            params={"name": city, "count": 1}
+        )
 
-    geo_data = geo_response.json()
-    if "results" not in geo_data or len(geo_data["results"]) == 0:
-        raise HTTPException(status_code=404, detail=f"City '{city}' not found")
+        if geo.status_code != 200:
+            raise HTTPException(400, "Geocoding API request failed")
 
-    result = geo_data["results"][0]
-    lat, lon = result["latitude"], result["longitude"]
+        geo_data = geo.json()
+        if "results" not in geo_data or not geo_data["results"]:
+            raise HTTPException(404, f"City '{city}' not found")
 
-    weather_url = "https://api.open-meteo.com/v1/forecast"
-    weather_params = {
-        "latitude": lat,
-        "longitude": lon,
-        "timezone": "auto",
-        "current_weather": True,
-        "hourly": "temperature_2m,weathercode,relative_humidity_2m,precipitation_probability,uv_index",
-        "daily": "temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_probability_max",
-    }
+        result = geo_data["results"][0]
+        lat = result["latitude"]
+        lon = result["longitude"]
 
-    weather_response = requests.get(weather_url, params=weather_params)
-    if weather_response.status_code != 200:
-        raise HTTPException(status_code=400, detail="Weather API request failed")
+        weather = await client.get(
+            "https://api.open-meteo.com/v1/forecast",
+            params={
+                "latitude": lat,
+                "longitude": lon,
+                "timezone": "auto",
+                "current_weather": True,
+                "hourly": "temperature_2m,weathercode,relative_humidity_2m,precipitation_probability,uv_index",
+                "daily": "temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_probability_max",
+            }
+        )
 
-    data = weather_response.json()
+    if weather.status_code != 200:
+        raise HTTPException(400, "Weather API request failed")
 
+    data = weather.json()
     current = data["current_weather"]
-    current_code = current["weathercode"]
+    code = current["weathercode"]
 
-    response = {
+    return {
         "city": result["name"],
         "country": result.get("country", ""),
         "latitude": lat,
@@ -279,12 +281,12 @@ def get_weather(city: str):
             "temperature": current["temperature"],
             "wind_speed": current["windspeed"],
             "wind_direction": current["winddirection"],
-            "weather_code": current_code,
-            "weather_text": WEATHER_CODES.get(current_code, "Unknown"),
+            "weather_code": code,
+            "weather_text": WEATHER_CODES.get(code, "Unknown"),
             "time": current["time"],
         },
         "hourly": {
-            "time": data["hourly"]["time"][:8], 
+            "time": data["hourly"]["time"][:8],
             "temperature_2m": data["hourly"]["temperature_2m"][:8],
             "weathercode": data["hourly"]["weathercode"][:8],
             "humidity": data["hourly"]["relative_humidity_2m"][:8],
@@ -299,10 +301,6 @@ def get_weather(city: str):
             "sunset": data["daily"]["sunset"],
             "uv_index_max": data["daily"]["uv_index_max"],
             "precipitation_probability_max": data["daily"]["precipitation_probability_max"],
-        },
+        }
     }
 
-    return response
-
-#authorization
-#pix
