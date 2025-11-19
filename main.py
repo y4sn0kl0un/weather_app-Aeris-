@@ -8,7 +8,7 @@ from urllib.parse import urlencode
 from datetime import datetime, timedelta
 from jose import jwt
 from dotenv import load_dotenv
-from httpx import AsyncClient
+import httpx
 
 from database import get_db, engine
 from models import Base, User, Bookmark
