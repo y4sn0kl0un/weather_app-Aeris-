@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends, Header
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
@@ -30,6 +30,7 @@ CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
 REDIRECT_URI = os.getenv("GOOGLE_REDIRECT_URI")
 JWT_SECRET = os.getenv("JWT_SECRET", "testsecret")
+FRONTEND_URL = os.getenv("FRONTEND_URL")
 JWT_ALG = "HS256"
 
 
@@ -96,7 +97,10 @@ def google_callback(code: str, db: Session = Depends(get_db)):
     return RedirectResponse(frontend_url)
 
 
-def get_current_user(authorization: str = Depends(lambda: None), db: Session = Depends(get_db)):
+def get_current_user(
+    authorization: str = Header(None),
+    db: Session = Depends(get_db)
+):
     if not authorization or not authorization.startswith("Bearer "):
         raise HTTPException(401, "Not authenticated")
 
