@@ -264,8 +264,8 @@ async def get_weather(city: str):
 
 
     geo_data = geo.json()
-        if "results" not in geo_data or not geo_data["results"]:
-            raise HTTPException(404, f"City '{city}' not found")
+    if "results" not in geo_data or not geo_data["results"]:
+        raise HTTPException(404, f"City '{city}' not found")
 
         result = geo_data["results"][0]
         lat = result["latitude"]
