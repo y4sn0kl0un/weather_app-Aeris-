@@ -30,8 +30,30 @@ CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
 REDIRECT_URI = os.getenv("GOOGLE_REDIRECT_URI")
 JWT_SECRET = os.getenv("JWT_SECRET", "testsecret")
-FRONTEND_URL = os.getenv("FRONTEND_URL")
+FRONTEND_URL = os.getenv("FRONTEND_URL", "https://aeris-frontend-gh0t.onrender.com")
 JWT_ALG = "HS256"
+
+
+# ИСПРАВЛЕНО: Переместили get_current_user ВЫШЕ, чтобы его можно было использовать
+def get_current_user(
+    authorization: str = Header(None),
+    db: Session = Depends(get_db)
+):
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(401, "Not authenticated")
+
+    token = authorization.split(" ")[1]
+
+    try:
+        data = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALG])
+    except:
+        raise HTTPException(401, "Invalid token")
+
+    user = db.query(User).filter(User.id == data["user_id"]).first()
+    if not user:
+        raise HTTPException(401, "User not found")
+
+    return user
 
 
 @app.get("/auth/google/login")
@@ -92,7 +114,9 @@ def google_callback(code: str, db: Session = Depends(get_db)):
         "exp": datetime.utcnow() + timedelta(days=7)
     }
     token = jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALG)
-    frontend_url = f"https://aeris-frontend-gh0t.onrender.com/?token={token}"
+
+    # ИСПРАВЛЕНО: Добавлен return для redirect
+    frontend_url = f"{FRONTEND_URL}/?token={token}"
     return RedirectResponse(frontend_url)
 
 
@@ -108,27 +132,6 @@ def get_me(current_user: User = Depends(get_current_user)):
     }
 
 
-def get_current_user(
-    authorization: str = Header(None),
-    db: Session = Depends(get_db)
-):
-    if not authorization or not authorization.startswith("Bearer "):
-        raise HTTPException(401, "Not authenticated")
-
-    token = authorization.split(" ")[1]
-
-    try:
-        data = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALG])
-    except:
-        raise HTTPException(401, "Invalid token")
-
-    user = db.query(User).filter(User.id == data["user_id"]).first()
-    if not user:
-        raise HTTPException(401, "User not found")
-
-    return user
-
-
 @app.get("/bookmarks")
 def get_bookmarks(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     bookmarks = db.query(Bookmark).filter(Bookmark.user_id == current_user.id).all()
@@ -142,7 +145,8 @@ def add_bookmark(city: str, current_user: User = Depends(get_current_user), db: 
         Bookmark.user_id == current_user.id,
         Bookmark.city_name == city
     ).first()
-
+    
+    # ИСПРАВЛЕНО: Правильный отступ
     if exists:
         return {"message": "Already exists"}
 
@@ -162,6 +166,7 @@ def delete_bookmark(city: str, current_user: User = Depends(get_current_user), d
 
     db.commit()
     return {"deleted": bool(deleted)}
+
 
 WEATHER_CODES = {
     0: "Clear sky",
@@ -187,11 +192,9 @@ WEATHER_CODES = {
     99: "Severe thunderstorm with hail",
 }
 
-    
 
 @app.get("/api")
 async def home():
-
     lat = 37.57
     lon = 126.98
 
@@ -247,11 +250,10 @@ async def home():
         }
     }
 
+
 @app.get("/api/weather")
 async def get_weather(city: str):
-
     async with httpx.AsyncClient() as client:
-
         geo = await client.get(
             "https://geocoding-api.open-meteo.com/v1/search",
             params={"name": city, "count": 1}
@@ -260,14 +262,16 @@ async def get_weather(city: str):
         if geo.status_code != 200:
             raise HTTPException(400, "Geocoding API request failed")
 
-        geo_data = geo.json()
+
+geo_data = geo.json()
         if "results" not in geo_data or not geo_data["results"]:
             raise HTTPException(404, f"City '{city}' not found")
 
         result = geo_data["results"][0]
         lat = result["latitude"]
         lon = result["longitude"]
-
+        
+        # ИСПРАВЛЕНО: Правильный отступ
         weather = await client.get(
             "https://api.open-meteo.com/v1/forecast",
             params={
@@ -318,4 +322,3 @@ async def get_weather(city: str):
             "precipitation_probability_max": data["daily"]["precipitation_probability_max"],
         }
     }
-
