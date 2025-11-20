@@ -116,7 +116,7 @@ def google_callback(code: str, db: Session = Depends(get_db)):
     token = jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALG)
 
     # ИСПРАВЛЕНО: Добавлен return для redirect
-    frontend_url = f"{FRONTEND_URL}/?token={token}"
+    frontend_url = f"{FRONTEND_URL}/auth/callback?token={token}"
     return RedirectResponse(frontend_url)
 
 
@@ -263,7 +263,7 @@ async def get_weather(city: str):
             raise HTTPException(400, "Geocoding API request failed")
 
 
-geo_data = geo.json()
+    geo_data = geo.json()
         if "results" not in geo_data or not geo_data["results"]:
             raise HTTPException(404, f"City '{city}' not found")
 
