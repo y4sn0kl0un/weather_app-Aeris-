@@ -5,15 +5,11 @@ import { WeeklyWeather } from "./layout/WeeklyWeather.jsx";
 import { Highlights } from "./layout/Highlights.jsx";
 import { Profile } from "./layout/Profile.jsx";
 import { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import CallbackPage from "./CallbackPage";
-
 import "./App.css";
 
 function App() {
     const API_URL = "https://aeris-75gf.onrender.com";
 
-    // ✅ Добавили состояние авторизации
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
 
@@ -40,18 +36,21 @@ function App() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // ✅ Проверка авторизации при загрузке приложения
+    // Проверяем сохраненные данные при загрузке
     useEffect(() => {
-        const user = localStorage.getItem('user');
-        if (user) {
+        const savedUser = localStorage.getItem('user');
+        const savedToken = localStorage.getItem('token');
+
+        if (savedUser && savedToken) {
             try {
-                const parsedUser = JSON.parse(user);
+                const parsedUser = JSON.parse(savedUser);
                 setIsAuthenticated(true);
                 setCurrentUser(parsedUser);
-                console.log('User logged in:', parsedUser);
+                console.log('User already logged in:', parsedUser);
             } catch (e) {
                 console.error('Error parsing user data:', e);
                 localStorage.removeItem('user');
+                localStorage.removeItem('token');
             }
         }
     }, []);
@@ -64,7 +63,7 @@ function App() {
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
-        const options = { month: 'short', day: 'numeric', year: 'numeric' };
+        const options = {month: 'short', day: 'numeric', year: 'numeric'};
         return date.toLocaleDateString('en-US', options);
     };
 
@@ -103,27 +102,21 @@ function App() {
     };
 
     const fetchWeatherData = (cityName) => {
-        console.log("Загружаем погоду для города:", cityName);
         setLoading(true);
         setError(null);
 
         fetch(`${API_URL}/api/weather?city=${cityName}`, {
             headers: {
-                'ngrok-skip-browser-warning': 'true'
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
         })
             .then(res => {
-                console.log("Response status:", res.status);
                 if (!res.ok) {
                     throw new Error(`HTTP error! status: ${res.status}`);
                 }
                 return res.json();
             })
             .then(data => {
-                console.log("Weather data:", data);
-                console.log("Sunset data:", data.daily?.sunset?.[0]);
-                console.log("Sunrise data:", data.daily?.sunrise?.[0]);
-
                 const currentDate = new Date(data.current.time);
                 const currentHour = currentDate.getHours();
 
@@ -167,17 +160,14 @@ function App() {
             });
     };
 
-    // ✅ Функции для логина и логаута
     const handleLogin = (user) => {
         setIsAuthenticated(true);
         setCurrentUser(user);
-        console.log('User logged in:', user);
     };
 
     const handleLogout = () => {
         setIsAuthenticated(false);
         setCurrentUser(null);
-        console.log('User logged out');
     };
 
     useEffect(() => {
@@ -193,59 +183,60 @@ function App() {
     }
 
     return (
-        <>
-
-            <div className="layout">
-                <div className="sidemenu">
-                    <SideMenu image="/logo.svg"
+        <div className="layout">
+            <div className="sidemenu">
+                <SideMenu
+                    image="/logo.svg"
                     city={weatherData.city}
                     temperature={`${weatherData.temperature}°`}
-                    />
-                </div>
-                <div className="search">
-                    <Search onCitySelect={fetchWeatherData} />
-
-                    <div className="weather">
-                        <Weather
-                            currentLocation={weatherData.city}
-                            image="/cloud.svg"
-                            weekDay={weatherData.weekDay}
-                            temperature={`${weatherData.temperature}°`}
-                            condition={weatherData.condition}
-                            date={weatherData.date}
-                            feelDegree={`${weatherData.feelDegree}°`}
-                            lowDegree={`${weatherData.lowDegree}°`}
-                            highDegree={`${weatherData.highDegree}°`}
-                            isAuthenticated={isAuthenticated}
-                            userId={currentUser?.id}
-                        />
-                        <WeeklyWeather
-                            hourlyData={weatherData.hourlyData}
-                            tomorrowCondition={weatherData.tomorrowCondition}
-                            sunset={weatherData.sunset}
-                            sunrise={weatherData.sunrise}
-                            image="/cloud.svg"
-                        />
-                    </div>
-                </div>
-
-                <Profile
-                    image="/default.svg"
-                    username={currentUser?.username || "user"}
-                    isAuthenticated={isAuthenticated}
-                    onLogin={handleLogin}
-                    onLogout={handleLogout}
-                />
-
-                <Highlights
-                    rainValue={weatherData.rainChance}
-                    humidityValue={weatherData.humidity}
-                    uvValue={weatherData.uvIndex}
-                    windValue={weatherData.windSpeed}
                 />
             </div>
-        </>
-    )
+            <div className="search">
+                <Search onCitySelect={fetchWeatherData}/>
+
+                <div className="weather">
+                    <Weather
+                        currentLocation={weatherData.city}
+                        image="/cloud.svg"
+                        weekDay={weatherData.weekDay}
+                        temperature={`${weatherData.temperature}°`}
+                        condition={weatherData.condition}
+                        date={weatherData.date}
+                        feelDegree={`${weatherData.feelDegree}°`}
+                        lowDegree={`${weatherData.lowDegree}°`}
+                        highDegree={`${weatherData.highDegree}°`}
+                        isAuthenticated={isAuthenticated}
+                        userId={currentUser?.id}
+                        bookmark="/bookmark.png"
+                    />
+                    <WeeklyWeather
+                        hourlyData={weatherData.hourlyData}
+                        tomorrowCondition={weatherData.tomorrowCondition}
+                        sunset={weatherData.sunset}
+                        sunrise={weatherData.sunrise}
+                        image="/cloud.svg"
+                    />
+                </div>
+            </div>
+
+            <Profile
+                image={currentUser?.picture || "/default.svg"}
+                username={currentUser?.name || currentUser?.username || "Guest"}
+                isAuthenticated={isAuthenticated}
+                onLogin={handleLogin}
+                onLogout={handleLogout}
+                setIsAuthenticated={setIsAuthenticated}
+                setCurrentUser={setCurrentUser}
+            />
+
+            <Highlights
+                rainValue={weatherData.rainChance}
+                humidityValue={weatherData.humidity}
+                uvValue={weatherData.uvIndex}
+                windValue={weatherData.windSpeed}
+            />
+        </div>
+    );
 }
 
-export default App
+export default App;

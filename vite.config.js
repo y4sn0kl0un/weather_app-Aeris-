@@ -7,7 +7,6 @@ export default defineConfig({
     server: {
         proxy: {
             '/api': {
-                target: 'https://alternately-nonpejorative-maisha.ngrok-free.dev/', // адрес FastAPI
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/api/, ''),
             },

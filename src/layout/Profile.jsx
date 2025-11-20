@@ -1,44 +1,79 @@
 import { useState, useEffect, useRef } from "react";
 import "./Profile.css";
 
-export function Profile({ image, username, isAuthenticated, onLogin, onLogout }) {
+export function Profile({
+                            image,
+                            username,
+                            isAuthenticated,
+                            onLogin,
+                            onLogout,
+                            setIsAuthenticated,
+                            setCurrentUser
+                        }) {
+    const API_URL = "https://aeris-75gf.onrender.com";
+
     const [showDropdown, setShowDropdown] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const profileRef = useRef(null);
 
-    // ✅ Обработка токена из URL при возврате от Google
+    // Обработка OAuth callback от Google
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const token = urlParams.get("token");
 
-        if (token) {
-            // Сохраняем токен
+        if (token && !isLoading) {
+            setIsLoading(true);
+            console.log("✅ Token получен из URL:", token);
             localStorage.setItem("token", token);
 
-            // Получаем данные пользователя с бэкенда
-            fetch("http://your-backend.com/api/user/me", {
+            // Теперь используем правильный endpoint
+            const userEndpoint = `${API_URL}/auth/me`;
+            console.log(`📡 Запрашиваем данные с: ${userEndpoint}`);
+
+            fetch(userEndpoint, {
+                method: 'GET',
                 headers: {
-                    "Authorization": `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
                 }
             })
-                .then(res => res.json())
-                .then(userData => {
-                    // Сохраняем данные пользователя
-                    localStorage.setItem("user", JSON.stringify(userData));
+                .then(res => {
+                    console.log(`📡 Ответ от сервера: ${res.status} ${res.statusText}`);
 
-                    // Вызываем onLogin чтобы обновить состояние в родительском компоненте
-                    onLogin(userData);
-
-                    // Очищаем URL от параметра token
-                    window.history.replaceState({}, document.title, window.location.pathname);
+                    if (!res.ok) {
+                        throw new Error(`HTTP error! status: ${res.status}`);
+                    }
+                    return res.json();
                 })
-                .catch(error => {
-                    console.error("Error fetching user data:", error);
-                    localStorage.removeItem("token");
+                .then(user => {
+                    console.log("✅ Данные пользователя получены:", user);
+
+                    // Сохраняем данные пользователя
+                    localStorage.setItem("user", JSON.stringify(user));
+
+                    setIsAuthenticated(true);
+                    setCurrentUser(user);
+                    onLogin(user);
+
+                    // Очищаем URL от токена
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                    setIsLoading(false);
+                })
+                .catch(err => {
+                    console.error("❌ Ошибка получения данных пользователя:", err);
+                    console.error("❌ Детали:", err.message);
+
+                    // Очищаем токен при ошибке
+                    localStorage.removeItem('token');
+                    setIsAuthenticated(false);
+                    setIsLoading(false);
+
+                    alert("Ошибка авторизации. Попробуйте снова.");
                 });
         }
-    }, [onLogin]);
+    }, [API_URL, setIsAuthenticated, setCurrentUser, onLogin, isLoading]);
 
-    // ✅ Закрытие dropdown при клике вне профиля
+    // Закрытие dropdown при клике вне его
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (profileRef.current && !profileRef.current.contains(event.target)) {
@@ -55,15 +90,16 @@ export function Profile({ image, username, isAuthenticated, onLogin, onLogout })
         };
     }, [showDropdown]);
 
-    // ✅ Авторизация через Google
     const handleGoogleLogin = (e) => {
         e.stopPropagation();
-        // Редирект на ваш бэкенд для начала OAuth flow
-        window.location.href = "https://aeris-75gf.onrender.com/auth/google/login";
+        const loginUrl = `${API_URL}/auth/google/login`;
+        console.log("🔄 Перенаправление на:", loginUrl);
+        window.location.href = loginUrl;
     };
 
     const handleLogout = (e) => {
         e.stopPropagation();
+        console.log("👋 Выход из системы");
         localStorage.removeItem('user');
         localStorage.removeItem('token');
         onLogout();
@@ -77,11 +113,25 @@ export function Profile({ image, username, isAuthenticated, onLogin, onLogout })
     return (
         <div
             ref={profileRef}
-            className={`profile ${isAuthenticated ? 'authenticated' : 'guest'}`}
+            className={`profile ${isAuthenticated ? 'authenticated' : 'username'}`}
             onClick={toggleDropdown}
         >
-            <img src={image} alt="Profile" className="profile-pic" />
-            <h3 className="username">{isAuthenticated ? username : 'Guest'}</h3>
+            {isLoading ? (
+                <div className="loading-spinner">Загрузка...</div>
+            ) : (
+                <>
+                    <img
+                        src={image}
+                        alt="Profile"
+                        className="profile-pic"
+                        onError={(e) => {
+                            console.log("⚠️ Ошибка загрузки изображения, использую default");
+                            e.target.src = "/default.svg";
+                        }}
+                    />
+                    <h3 className="username">{username}</h3>
+                </>
+            )}
 
             {showDropdown && (
                 <div className="dropdown" onClick={(e) => e.stopPropagation()}>

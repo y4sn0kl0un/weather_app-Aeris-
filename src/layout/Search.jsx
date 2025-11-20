@@ -8,25 +8,21 @@ export function Search({ onCitySelect }) {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        // Если текст пустой - ничего не делаем
         if (searchCity.length === 0) {
             setResults([]);
             setDropdown(false);
             return;
         }
 
-        // Если меньше 2 символов - не ищем (экономим запросы)
         if (searchCity.length < 2) {
             return;
         }
 
-        // Задержка перед запросом (debounce)
-        // Чтобы не делать запрос на каждую букву
+
         const timer = setTimeout(() => {
             searchCities(searchCity);
         }, 500); // 500ms задержка
 
-        // Отменяем предыдущий таймер при новом вводе
         return () => clearTimeout(timer);
     }, [searchCity]);
 
@@ -34,7 +30,6 @@ export function Search({ onCitySelect }) {
         setLoading(true);
 
         try {
-            // API для поиска городов (бесплатный)
             const response = await fetch(
                 `https://geocoding-api.open-meteo.com/v1/search?name=${query}&count=10&language=en&format=json`
             );
@@ -42,15 +37,10 @@ export function Search({ onCitySelect }) {
             const data = await response.json();
 
             if (data.results) {
-                // Форматируем результаты
                 const cities = data.results.map(city => ({
                     name: city.name,
                     country: city.country,
-                    // Полное название с страной для отображения
                     displayName: `${city.name}, ${city.country}`,
-                    // Координаты (если понадобятся)
-                    lat: city.latitude,
-                    lon: city.longitude
                 }));
 
                 setResults(cities);
@@ -72,7 +62,6 @@ export function Search({ onCitySelect }) {
         setSearchCity(city.displayName);
         setDropdown(false);
 
-        // Передаём только название города (без страны)
         if (onCitySelect) {
             onCitySelect(city.name);
         }

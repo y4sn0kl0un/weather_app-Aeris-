@@ -26,14 +26,25 @@
 
 .current-location {
     display: flex;
-    align-items: center;
+    position: relative;
+    justify-content: space-between;
 }
 
 .current-location h4 {
     background-color: purple;
     border-radius: 30px;
-    padding: 0.5rem 1rem;
     font-size: 1vw;
+    justify-content: space-between;
+    align-items: center;
+}
+.current-location button {
+    display: inline-flex;
+    border-radius: 30px;
+}
+.current-location button img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .day-temp {
@@ -152,6 +163,16 @@
         position: relative;
         top: 3vh;
         left: 2vw;
+    }
+    .current-location h4 {
+        display: flex;
+        padding: 1vh 1vw;
+
+    }
+    .current-location button {
+        width: 4vw;
+        height: 5vh;
+
     }
 
     .day-temp {

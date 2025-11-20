@@ -1,10 +1,10 @@
 import "./Weather.css"
 import {useEffect, useState} from "react";
 export  function Weather({currentLocation,
-                             image, date, temperature,
+                             image,  date, temperature,
                              feelDegree, condition, lowDegree, highDegree}) {
 
-    const API_URL = "https://alternately-nonpejorative-maisha.ngrok-free.dev/weather ";
+    const API_URL = "https://aeris-75gf.onrender.com";
 
 
     const [data, setData] = useState(null);
@@ -22,7 +22,8 @@ export  function Weather({currentLocation,
 
             <div className="current-location">
 
-                <h4>{currentLocation}</h4>
+                <h4>{currentLocation}
+                </h4>
             </div>
             <div className="day-temp">
                 <div className="date">
