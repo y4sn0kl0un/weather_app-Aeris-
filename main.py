@@ -92,6 +92,8 @@ def google_callback(code: str, db: Session = Depends(get_db)):
         "exp": datetime.utcnow() + timedelta(days=7)
     }
     token = jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALG)
+    frontend_url = f"https://aeris-frontend-gh0t.onrender.com/?token={token}"
+    return RedirectResponse(frontend_url)
 
 
 @app.get("/auth/me")
