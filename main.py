@@ -93,8 +93,17 @@ def google_callback(code: str, db: Session = Depends(get_db)):
     }
     token = jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALG)
 
-    frontend_url = f"https://aeris-frontend-gh0t.onrender.com/auth/callback?token={token}"
-    return RedirectResponse(frontend_url)
+
+@app.get("/auth/me")
+def get_me(current_user: User = Depends(get_current_user)):
+    """Получить данные текущего пользователя"""
+    return {
+        "id": current_user.id,
+        "email": current_user.email,
+        "name": current_user.name,
+        "picture": current_user.picture,
+        "google_id": current_user.google_id
+    }
 
 
 def get_current_user(
