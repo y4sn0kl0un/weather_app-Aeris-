@@ -34,7 +34,6 @@ FRONTEND_URL = os.getenv("FRONTEND_URL", "https://aeris-frontend-gh0t.onrender.c
 JWT_ALG = "HS256"
 
 
-# ИСПРАВЛЕНО: Переместили get_current_user ВЫШЕ, чтобы его можно было использовать
 def get_current_user(
     authorization: str = Header(None),
     db: Session = Depends(get_db)
@@ -115,7 +114,6 @@ def google_callback(code: str, db: Session = Depends(get_db)):
     }
     token = jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALG)
 
-    # ИСПРАВЛЕНО: Добавлен return для redirect
     frontend_url = f"{FRONTEND_URL}/auth/callback?token={token}"
     return RedirectResponse(frontend_url)
 
@@ -146,7 +144,6 @@ def add_bookmark(city: str, current_user: User = Depends(get_current_user), db: 
         Bookmark.city_name == city
     ).first()
     
-    # ИСПРАВЛЕНО: Правильный отступ
     if exists:
         return {"message": "Already exists"}
 
@@ -211,44 +208,44 @@ async def home():
             }
         )
 
-    if r.status_code != 200:
-        raise HTTPException(400, "Weather API request failed")
+        if r.status_code != 200:
+            raise HTTPException(400, "Weather API request failed")
 
-    data = r.json()
-    current = data["current_weather"]
-    code = current["weathercode"]
+        data = r.json()
+        current = data["current_weather"]
+        code = current["weathercode"]
 
-    return {
-        "city": "Seoul",
-        "country": "South Korea",
-        "latitude": lat,
-        "longitude": lon,
-        "current": {
-            "temperature": current["temperature"],
-            "wind_speed": current["windspeed"],
-            "wind_direction": current["winddirection"],
-            "weather_code": code,
-            "weather_text": WEATHER_CODES.get(code, "Unknown"),
-            "time": current["time"],
-        },
-        "hourly": {
-            "time": data["hourly"]["time"][:8],
-            "temperature_2m": data["hourly"]["temperature_2m"][:8],
-            "weathercode": data["hourly"]["weathercode"][:8],
-            "humidity": data["hourly"]["relative_humidity_2m"][:8],
-            "uv_index": data["hourly"]["uv_index"][:8],
-            "precipitation_probability": data["hourly"]["precipitation_probability"][:8],
-        },
-        "daily": {
-            "time": data["daily"]["time"],
-            "temperature_max": data["daily"]["temperature_2m_max"],
-            "temperature_min": data["daily"]["temperature_2m_min"],
-            "sunrise": data["daily"]["sunrise"],
-            "sunset": data["daily"]["sunset"],
-            "uv_index_max": data["daily"]["uv_index_max"],
-            "precipitation_probability_max": data["daily"]["precipitation_probability_max"],
+        return {
+            "city": "Seoul",
+            "country": "South Korea",
+            "latitude": lat,
+            "longitude": lon,
+            "current": {
+                "temperature": current["temperature"],
+                "wind_speed": current["windspeed"],
+                "wind_direction": current["winddirection"],
+                "weather_code": code,
+                "weather_text": WEATHER_CODES.get(code, "Unknown"),
+                "time": current["time"],
+            },
+            "hourly": {
+                "time": data["hourly"]["time"][:8],
+                "temperature_2m": data["hourly"]["temperature_2m"][:8],
+                "weathercode": data["hourly"]["weathercode"][:8],
+                "humidity": data["hourly"]["relative_humidity_2m"][:8],
+                "uv_index": data["hourly"]["uv_index"][:8],
+                "precipitation_probability": data["hourly"]["precipitation_probability"][:8],
+            },
+            "daily": {
+                "time": data["daily"]["time"],
+                "temperature_max": data["daily"]["temperature_2m_max"],
+                "temperature_min": data["daily"]["temperature_2m_min"],
+                "sunrise": data["daily"]["sunrise"],
+                "sunset": data["daily"]["sunset"],
+                "uv_index_max": data["daily"]["uv_index_max"],
+                "precipitation_probability_max": data["daily"]["precipitation_probability_max"],
+            }
         }
-    }
 
 
 @app.get("/api/weather")
@@ -262,16 +259,14 @@ async def get_weather(city: str):
         if geo.status_code != 200:
             raise HTTPException(400, "Geocoding API request failed")
 
-
-    geo_data = geo.json()
-    if "results" not in geo_data or not geo_data["results"]:
-        raise HTTPException(404, f"City '{city}' not found")
+        geo_data = geo.json()
+        if "results" not in geo_data or not geo_data["results"]:
+            raise HTTPException(404, f"City '{city}' not found")
 
         result = geo_data["results"][0]
         lat = result["latitude"]
         lon = result["longitude"]
         
-        # ИСПРАВЛЕНО: Правильный отступ
         weather = await client.get(
             "https://api.open-meteo.com/v1/forecast",
             params={
@@ -284,41 +279,41 @@ async def get_weather(city: str):
             }
         )
 
-    if weather.status_code != 200:
-        raise HTTPException(400, "Weather API request failed")
+        if weather.status_code != 200:
+            raise HTTPException(400, "Weather API request failed")
 
-    data = weather.json()
-    current = data["current_weather"]
-    code = current["weathercode"]
+        data = weather.json()
+        current = data["current_weather"]
+        code = current["weathercode"]
 
-    return {
-        "city": result["name"],
-        "country": result.get("country", ""),
-        "latitude": lat,
-        "longitude": lon,
-        "current": {
-            "temperature": current["temperature"],
-            "wind_speed": current["windspeed"],
-            "wind_direction": current["winddirection"],
-            "weather_code": code,
-            "weather_text": WEATHER_CODES.get(code, "Unknown"),
-            "time": current["time"],
-        },
-        "hourly": {
-            "time": data["hourly"]["time"][:8],
-            "temperature_2m": data["hourly"]["temperature_2m"][:8],
-            "weathercode": data["hourly"]["weathercode"][:8],
-            "humidity": data["hourly"]["relative_humidity_2m"][:8],
-            "uv_index": data["hourly"]["uv_index"][:8],
-            "precipitation_probability": data["hourly"]["precipitation_probability"][:8],
-        },
-        "daily": {
-            "time": data["daily"]["time"],
-            "temperature_max": data["daily"]["temperature_2m_max"],
-            "temperature_min": data["daily"]["temperature_2m_min"],
-            "sunrise": data["daily"]["sunrise"],
-            "sunset": data["daily"]["sunset"],
-            "uv_index_max": data["daily"]["uv_index_max"],
-            "precipitation_probability_max": data["daily"]["precipitation_probability_max"],
+        return {
+            "city": result["name"],
+            "country": result.get("country", ""),
+            "latitude": lat,
+            "longitude": lon,
+            "current": {
+                "temperature": current["temperature"],
+                "wind_speed": current["windspeed"],
+                "wind_direction": current["winddirection"],
+                "weather_code": code,
+                "weather_text": WEATHER_CODES.get(code, "Unknown"),
+                "time": current["time"],
+            },
+            "hourly": {
+                "time": data["hourly"]["time"][:8],
+                "temperature_2m": data["hourly"]["temperature_2m"][:8],
+                "weathercode": data["hourly"]["weathercode"][:8],
+                "humidity": data["hourly"]["relative_humidity_2m"][:8],
+                "uv_index": data["hourly"]["uv_index"][:8],
+                "precipitation_probability": data["hourly"]["precipitation_probability"][:8],
+            },
+            "daily": {
+                "time": data["daily"]["time"],
+                "temperature_max": data["daily"]["temperature_2m_max"],
+                "temperature_min": data["daily"]["temperature_2m_min"],
+                "sunrise": data["daily"]["sunrise"],
+                "sunset": data["daily"]["sunset"],
+                "uv_index_max": data["daily"]["uv_index_max"],
+                "precipitation_probability_max": data["daily"]["precipitation_probability_max"],
+            }
         }
-    }
