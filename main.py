@@ -50,7 +50,6 @@ http_client = httpx.AsyncClient(
         max_connections=100,  # Максимум 100 одновременных соединений
         max_keepalive_connections=20  # 20 соединений остаются открытыми для переиспользования
     ),
-    http2=True  # Использовать HTTP/2 для ускорения
 )
 
 @app.on_event("shutdown")
