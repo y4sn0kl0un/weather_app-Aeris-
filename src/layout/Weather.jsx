@@ -2,7 +2,7 @@ import "./Weather.css"
 import {useEffect, useState} from "react";
 export  function Weather({currentLocation,
                              image,  date, temperature,
-                             feelDegree, condition, lowDegree, highDegree}) {
+                             feelDegree, condition, lowDegree, highDegree, bookmark}) {
 
     const API_URL = "https://aeris-75gf.onrender.com";
 
@@ -23,6 +23,9 @@ export  function Weather({currentLocation,
             <div className="current-location">
 
                 <h4>{currentLocation}
+                    <button>
+                        <img src={bookmark} alt={bookmark}/>
+                    </button>
                 </h4>
             </div>
             <div className="day-temp">

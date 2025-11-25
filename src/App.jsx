@@ -17,6 +17,7 @@ function App() {
         city: "Seoul",
         weekDay: "",
         temperature: "",
+        currentTime:"",
         hour: "",
         condition: "",
         date: "",
@@ -81,8 +82,8 @@ function App() {
         if (!isoString) return '';
 
         if (typeof isoString === 'string' && isoString.includes('T')) {
-            const time = isoString.split('T')[1].slice(0, 5);
-            return time;
+            const currentHour = isoString.split('T')[1].slice(0, 5);
+            return currentHour;
         }
 
         if (typeof isoString === 'number') {
@@ -93,7 +94,7 @@ function App() {
 
         try {
             const date = new Date(isoString);
-            const hours = date.getHours().toString().padStart(2, '0');
+            const hours = date.getHours().toString().padStart(2);
             return `${hours}`;
         } catch (e) {
             console.error('Error formatting sun time:', e);
@@ -208,6 +209,7 @@ function App() {
                         isAuthenticated={isAuthenticated}
                         userId={currentUser?.id}
                         bookmark="/bookmark.png"
+                        bookmarked="bookmarked.png"
                     />
                     <WeeklyWeather
                         hourlyData={weatherData.hourlyData}
