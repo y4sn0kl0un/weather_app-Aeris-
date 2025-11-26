@@ -55,8 +55,7 @@ input::placeholder {
     }
 
     .sdropdown {
-        width: 60vw;
-        left: 0;
+        width: 100vw;
         top: 100%;
         margin-top: 0.5rem;
     }
