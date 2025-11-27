@@ -15,15 +15,17 @@ export function Profile({
     const [showDropdown, setShowDropdown] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const profileRef = useRef(null);
+    const [hasProcessedToken, setHasProcessedToken] = useState(false);
 
     // Обработка OAuth callback от Google
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const token = urlParams.get("token");
 
-        if (token && !isLoading) {
+        if (token && !isLoading && !hasProcessedToken) {
             const cleanToken = token.trim();
             setIsLoading(true);
+            setHasProcessedToken(true);
             console.log("✅ Token получен из URL:", token);
             localStorage.setItem("token", cleanToken);
 
