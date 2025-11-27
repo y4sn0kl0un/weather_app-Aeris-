@@ -22,9 +22,10 @@ export function Profile({
         const token = urlParams.get("token");
 
         if (token && !isLoading) {
+            const cleanToken = token.trim();
             setIsLoading(true);
             console.log("✅ Token получен из URL:", token);
-            localStorage.setItem("token", token);
+            localStorage.setItem("token", cleanToken);
 
             // Теперь используем правильный endpoint
             const userEndpoint = `${API_URL}/auth/me`;
@@ -33,7 +34,7 @@ export function Profile({
             fetch(userEndpoint, {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    'Authorization': `Bearer ${cleanToken}`,
                     'Content-Type': 'application/json'
                 }
             })
