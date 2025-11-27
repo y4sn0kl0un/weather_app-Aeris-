@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 import "./App.css";
 
 function App() {
-    const API_URL = "https://backend-production-78d0.up.railway.app/";
+    const API_URL = "https://backend-production-78d0.up.railway.app";
 
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
