@@ -4,7 +4,7 @@ export  function Weather({currentLocation,
                              image,  date, temperature,
                              feelDegree, condition, lowDegree, highDegree, bookmark}) {
 
-    const API_URL = "https://aeris-75gf.onrender.com";
+    const API_URL = "https://backend-production-78d0.up.railway.app/";
 
 
     const [data, setData] = useState(null);
