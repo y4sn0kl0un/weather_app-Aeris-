@@ -10,7 +10,7 @@ export function Profile({
                             setIsAuthenticated,
                             setCurrentUser
                         }) {
-    const API_URL = "https://frontend-production-95bb.up.railway.app";
+    const API_URL = "https://aeris-75gf.onrender.com";
 
     const [showDropdown, setShowDropdown] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
