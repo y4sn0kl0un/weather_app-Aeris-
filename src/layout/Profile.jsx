@@ -10,7 +10,7 @@ export function Profile({
                             setIsAuthenticated,
                             setCurrentUser
                         }) {
-    const API_URL = "https://frontend-production-95bb.up.railway.app";
+    const API_URL = "https://backend-production-78d0.up.railway.app/";
 
     const [showDropdown, setShowDropdown] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
