@@ -38,7 +38,7 @@ CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
 REDIRECT_URI = os.getenv("GOOGLE_REDIRECT_URI")
 JWT_SECRET = os.getenv("JWT_SECRET", "testsecret")
-FRONTEND_URL = os.getenv("FRONTEND_URL", "https://aeris-frontend-gh0t.onrender.com")
+FRONTEND_URL = os.getenv("FRONTEND_URL", "https://frontend-production-95bb.up.railway.app")
 JWT_ALG = "HS256"
 
 # ============================================
