@@ -14,8 +14,8 @@ export function Profile({
 
     const [showDropdown, setShowDropdown] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const profileRef = useRef(null);
     const [hasProcessedToken, setHasProcessedToken] = useState(false);
+    const profileRef = useRef(null);
 
     // Обработка OAuth callback от Google
     useEffect(() => {
@@ -26,10 +26,9 @@ export function Profile({
             const cleanToken = token.trim();
             setIsLoading(true);
             setHasProcessedToken(true);
-            console.log("✅ Token получен из URL:", token);
+            console.log("✅ Token получен из URL:", cleanToken);
             localStorage.setItem("token", cleanToken);
 
-            // Теперь используем правильный endpoint
             const userEndpoint = `${API_URL}/auth/me`;
             console.log(`📡 Запрашиваем данные с: ${userEndpoint}`);
 
@@ -44,21 +43,22 @@ export function Profile({
                     console.log(`📡 Ответ от сервера: ${res.status} ${res.statusText}`);
 
                     if (!res.ok) {
-                        throw new Error(`HTTP error! status: ${res.status}`);
+                        return res.text().then(text => {
+                            console.error("❌ Тело ответа с ошибкой:", text);
+                            throw new Error(`HTTP error! status: ${res.status}, body: ${text}`);
+                        });
                     }
                     return res.json();
                 })
                 .then(user => {
                     console.log("✅ Данные пользователя получены:", user);
 
-                    // Сохраняем данные пользователя
                     localStorage.setItem("user", JSON.stringify(user));
 
                     setIsAuthenticated(true);
                     setCurrentUser(user);
                     onLogin(user);
 
-                    // Очищаем URL от токена
                     window.history.replaceState({}, document.title, window.location.pathname);
                     setIsLoading(false);
                 })
@@ -66,15 +66,15 @@ export function Profile({
                     console.error("❌ Ошибка получения данных пользователя:", err);
                     console.error("❌ Детали:", err.message);
 
-                    // Очищаем токен при ошибке
                     localStorage.removeItem('token');
                     setIsAuthenticated(false);
                     setIsLoading(false);
+                    setHasProcessedToken(false);
 
                     alert("Ошибка авторизации. Попробуйте снова.");
                 });
         }
-    }, [API_URL, setIsAuthenticated, setCurrentUser, onLogin, isLoading]);
+    }, [API_URL, setIsAuthenticated, setCurrentUser, onLogin, isLoading, hasProcessedToken]);
 
     // Закрытие dropdown при клике вне его
     useEffect(() => {
