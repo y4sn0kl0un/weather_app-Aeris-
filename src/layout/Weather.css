@@ -97,10 +97,18 @@
     .current-location {
         position: relative;
         margin-left: 6vw;
+        min-width: 40vw;
     }
 
     .current-location h4 {
         font-size: 4vw;
+        text-align: center;
+        width: 30vw;
+    }
+    .button {
+        display: flex;
+        width: 10vw;
+        height: 10vw;
     }
 
     .day-temp {

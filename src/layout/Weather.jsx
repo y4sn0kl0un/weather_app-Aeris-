@@ -14,8 +14,9 @@ export  function Weather({currentLocation,
             .then(data => {
                 console.log(data);
                 setData(data);
-            });
-    },[data])
+            })
+        .catch(err=>console.log("Weatherfetch error", err));
+    },[])
   return (
 
         <div className="weather-info">

@@ -26,7 +26,6 @@ export function Profile({
             const cleanToken = token.trim();
             setIsLoading(true);
             setHasProcessedToken(true);
-            console.log("✅ Token получен из URL:", cleanToken);
             localStorage.setItem("token", cleanToken);
 
             const userEndpoint = `${API_URL}/auth/me`;
