@@ -237,6 +237,7 @@ async def google_callback(code: str, db: Session = Depends(get_db)):
     token = jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALG)
 
     frontend_url = f"{FRONTEND_URL}/auth/callback?token={token}"
+    print("google token response", tokens)
     return RedirectResponse(frontend_url)
 
 
