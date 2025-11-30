@@ -71,6 +71,7 @@ export function Profile({
                     setHasProcessedToken(false);
 
                     alert("Ошибка авторизации. Попробуйте снова.");
+                    return null;
                 });
         }
     }, [API_URL, setIsAuthenticated, setCurrentUser, onLogin, isLoading, hasProcessedToken]);

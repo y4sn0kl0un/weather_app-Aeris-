@@ -4,6 +4,8 @@ import { Search } from "./layout/Search.jsx";
 import { WeeklyWeather } from "./layout/WeeklyWeather.jsx";
 import { Highlights } from "./layout/Highlights.jsx";
 import { Profile } from "./layout/Profile.jsx";
+import { BookmarksList } from "./layout/BookmarksList.jsx";
+import { useBookmarks } from "./layout/useBookmarks.js";
 import { useState, useEffect } from "react";
 import "./App.css";
 
@@ -12,6 +14,16 @@ function App() {
 
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
+
+    // ========================================
+    // НОВОЕ: Подключаем хук закладок
+    // ========================================
+    const {
+        bookmarks,
+        addBookmark,
+        removeBookmark,
+        isBookmarked
+    } = useBookmarks(currentUser?.id); // Передаём ID пользователя
 
     const [weatherData, setWeatherData] = useState({
         city: "Seoul",
@@ -161,6 +173,39 @@ function App() {
             });
     };
 
+    // ========================================
+    // НОВОЕ: Обработчик добавления в закладки
+    // ========================================
+    const handleAddBookmark = () => {
+        if (!isAuthenticated) {
+            alert('Пожалуйста, войдите в систему для сохранения закладок');
+            return;
+        }
+
+        const bookmarkData = {
+            city: weatherData.city,
+            temperature: weatherData.temperature,
+            condition: weatherData.condition,
+            date: weatherData.date
+        };
+
+        addBookmark(bookmarkData);
+    };
+
+    // ========================================
+    // НОВОЕ: Обработчик удаления закладки
+    // ========================================
+    const handleRemoveBookmark = (bookmarkId) => {
+        removeBookmark(bookmarkId);
+    };
+
+    // ========================================
+    // НОВОЕ: Клик по закладке = загрузить погоду
+    // ========================================
+    const handleBookmarkSelect = (city) => {
+        fetchWeatherData(city);
+    };
+
     const handleLogin = (user) => {
         setIsAuthenticated(true);
         setCurrentUser(user);
@@ -191,7 +236,18 @@ function App() {
                     city={weatherData.city}
                     temperature={`${weatherData.temperature}°`}
                 />
+
+                {/* ========================================
+                    НОВОЕ: Список закладок в боковом меню
+                    ======================================== */}
+                <BookmarksList
+                    bookmarks={bookmarks}
+                    onRemove={handleRemoveBookmark}
+                    onSelect={handleBookmarkSelect}
+                    isAuthenticated={isAuthenticated}
+                />
             </div>
+
             <div className="search">
                 <Search onCitySelect={fetchWeatherData}/>
 
@@ -199,17 +255,17 @@ function App() {
                     <Weather
                         currentLocation={weatherData.city}
                         image="/cloud.svg"
-                        weekDay={weatherData.weekDay}
+                        date={weatherData.date}
                         temperature={`${weatherData.temperature}°`}
                         condition={weatherData.condition}
-                        date={weatherData.date}
                         feelDegree={`${weatherData.feelDegree}°`}
                         lowDegree={`${weatherData.lowDegree}°`}
                         highDegree={`${weatherData.highDegree}°`}
-                        isAuthenticated={isAuthenticated}
-                        userId={currentUser?.id}
                         bookmark="/bookmark.png"
-                        bookmarked="bookmarked.png"
+                        bookmarked="/bookmarked.png"
+                        isAuthenticated={isAuthenticated}
+                        onAddBookmark={handleAddBookmark}
+                        isBookmarked={isBookmarked(weatherData.city)}
                     />
                     <WeeklyWeather
                         hourlyData={weatherData.hourlyData}
