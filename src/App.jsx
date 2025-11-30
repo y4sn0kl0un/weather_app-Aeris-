@@ -235,6 +235,10 @@ function App() {
                     image="/logo.svg"
                     city={weatherData.city}
                     temperature={`${weatherData.temperature}°`}
+                    bookmarks={bookmarks}
+                    onCitySelect={fetchWeatherData}
+                    onRemoveBookmark={handleRemoveBookmark}
+                    isAuthenticated={isAuthenticated}
                 />
 
                 {/* ========================================

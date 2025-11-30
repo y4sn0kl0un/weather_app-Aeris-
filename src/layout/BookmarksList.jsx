@@ -113,19 +113,3 @@ export function BookmarksList({ bookmarks, onRemove, onSelect, isAuthenticated }
     );
 }
 
-// Вспомогательная функция форматирования даты
-function formatDate(isoString) {
-    if (!isoString) return 'Неизвестно';
-
-    try {
-        const date = new Date(isoString);
-        const options = {
-            month: 'short',
-            day: 'numeric'
-        };
-        return date.toLocaleDateString('ru-RU', options);
-    } catch (error) {
-        console.error('Error formatting date:', error);
-        return 'Неизвестно';
-    }
-}
