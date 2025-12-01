@@ -17,7 +17,8 @@ export function SideMenu({
         <aside>
             <div className="side-container">
                 <div className="logo">
-                    <img src={image} alt="logo" />
+                    <img src={image} alt="logo"/>
+                    <a href="https://frontend-production-95bb.up.railway.app" alt="logo"/>
                 </div>
 
                 <div className="cities-logout">

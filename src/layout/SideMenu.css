@@ -6,6 +6,8 @@
 
   .bookmark-item-side {
       display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
   }
 
  @media (max-width: 480px) {

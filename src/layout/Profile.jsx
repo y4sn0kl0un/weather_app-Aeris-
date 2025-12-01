@@ -62,8 +62,6 @@ export function Profile({
                     setIsLoading(false);
                 })
                 .catch(err => {
-                    console.error("❌ Ошибка получения данных пользователя:", err);
-                    console.error("❌ Детали:", err.message);
 
                     localStorage.removeItem('token');
                     setIsAuthenticated(false);
@@ -128,7 +126,6 @@ export function Profile({
                         alt="Profile"
                         className="profile-pic"
                         onError={(e) => {
-                            console.log("⚠️ Ошибка загрузки изображения, использую default");
                             e.target.src = "/default.svg";
                         }}
                     />
