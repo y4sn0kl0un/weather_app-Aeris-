@@ -236,20 +236,14 @@ function App() {
                     city={weatherData.city}
                     temperature={`${weatherData.temperature}°`}
                     bookmarks={bookmarks}
-                    onCitySelect={fetchWeatherData}
-                    onRemoveBookmark={handleRemoveBookmark}
-                    isAuthenticated={isAuthenticated}
-                />
-
-                {/* ========================================
-                    НОВОЕ: Список закладок в боковом меню
-                    ======================================== */}
-                <BookmarksList
-                    bookmarks={bookmarks}
                     onRemove={handleRemoveBookmark}
                     onSelect={handleBookmarkSelect}
                     isAuthenticated={isAuthenticated}
+                    onCitySelect={fetchWeatherData}
+                    onRemoveBookmark={handleRemoveBookmark}
                 />
+
+
             </div>
 
             <div className="search">

@@ -13,6 +13,11 @@ export function SideMenu({
                              onRemoveBookmark,    // Функция удаления закладки
                              isAuthenticated      // Авторизован ли пользователь
                          }) {
+
+    if (!Array.isArray(bookmarks)) {
+        console.error('bookmarks is not array!');
+        return null;
+    }
     return (
         <aside>
             <div className="side-container">
@@ -38,6 +43,8 @@ export function SideMenu({
                                 <p>Закладок пока нет</p>
                             </div>
                         )}
+
+
 
                         {/* Список закладок */}
                         {isAuthenticated && bookmarks.length > 0 && (
