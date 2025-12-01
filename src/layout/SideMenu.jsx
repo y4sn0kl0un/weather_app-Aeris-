@@ -30,10 +30,7 @@ export function SideMenu({
 
                     <div className="current-city-header">
                         <h3>Bookmarks:</h3>
-                        <div className="current-city">
-                            <span className="city-name-current">{city}</span>
-                            <span className="city-temp-current">{temperature}</span>
-                        </div>
+
                     </div>
 
 
