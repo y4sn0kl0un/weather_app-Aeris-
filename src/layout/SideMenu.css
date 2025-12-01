@@ -4,6 +4,10 @@
     height: 7vh;
 }
 
+  .bookmark-item-side {
+      display: flex;
+  }
+
  @media (max-width: 480px) {
     .side-container {
         display: flex;

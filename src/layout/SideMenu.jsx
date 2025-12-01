@@ -2,16 +2,11 @@
 import "./SideMenu.css";
 
 export function SideMenu({
-                             city,           // Текущий город (оставим для заголовка)
-                             temperature,    // Текущая температура
-                             image,          // Логотип
-                             // ========================================
-                             // НОВЫЕ ПРОПСЫ для закладок
-                             // ========================================
-                             bookmarks = [],      // Массив закладок
-                             onCitySelect,        // Функция выбора города
-                             onRemoveBookmark,    // Функция удаления закладки
-                             isAuthenticated      // Авторизован ли пользователь
+                             image,
+                             bookmarks = [],
+                             onCitySelect,
+                             onRemoveBookmark,
+                             isAuthenticated
                          }) {
 
     if (!Array.isArray(bookmarks)) {
@@ -21,7 +16,6 @@ export function SideMenu({
     return (
         <aside>
             <div className="side-container">
-                {/* Логотип */}
                 <div className="logo">
                     <img src={image} alt="logo" />
                 </div>
@@ -29,21 +23,12 @@ export function SideMenu({
                 <div className="cities-logout">
 
                     <div className="current-city-header">
-                        <h3>Bookmarks:</h3>
 
                     </div>
 
 
 
-                        {isAuthenticated && bookmarks.length === 0 && (
-                            <div className="bookmarks-empty">
-                                <p>Закладок пока нет</p>
-                            </div>
-                        )}
 
-
-
-                        {/* Список закладок */}
                         {isAuthenticated && bookmarks.length > 0 && (
                             <div className="bookmarks-list-side">
                                 {bookmarks.map((bookmark) => (
@@ -51,7 +36,6 @@ export function SideMenu({
                                         key={bookmark.id}
                                         className="bookmark-item-side"
                                     >
-                                        {/* Кликабельная область */}
                                         <button
                                             onClick={() => onCitySelect(bookmark.city)}
                                             className="bookmark-btn-side"
@@ -64,7 +48,6 @@ export function SideMenu({
                                         </span>
                                         </button>
 
-                                        {/* Кнопка удаления */}
                                         <button
                                             onClick={() => onRemoveBookmark(bookmark.id)}
                                             className="bookmark-remove-side"

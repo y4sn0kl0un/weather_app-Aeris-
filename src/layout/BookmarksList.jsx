@@ -24,9 +24,6 @@ export function BookmarksList({ bookmarks, onRemove, onSelect, isAuthenticated }
         return null;
     }
 
-    // ========================================
-    // ПРОВЕРКА: Пользователь не авторизован
-    // ========================================
     if (!isAuthenticated) {
         return (
             <div className="bookmarks-container">
@@ -38,9 +35,6 @@ export function BookmarksList({ bookmarks, onRemove, onSelect, isAuthenticated }
         );
     }
 
-    // ========================================
-    // ПРОВЕРКА: Нет сохранённых закладок
-    // ========================================
     if (bookmarks.length === 0) {
         return (
             <div className="bookmarks-container">
@@ -54,9 +48,6 @@ export function BookmarksList({ bookmarks, onRemove, onSelect, isAuthenticated }
         );
     }
 
-    // ========================================
-    // ОСНОВНОЙ РЕНДЕР: Список закладок
-    // ========================================
     return (
         <div className="bookmarks-container">
             <h3 className="bookmarks-title">
@@ -66,7 +57,6 @@ export function BookmarksList({ bookmarks, onRemove, onSelect, isAuthenticated }
 
             <div className="bookmarks-list">
                 {bookmarks.map((bookmark) => {
-                    // Проверка: у закладки есть ID
                     if (!bookmark || !bookmark.id) {
                         console.error('Invalid bookmark:', bookmark);
                         return null;
@@ -77,7 +67,6 @@ export function BookmarksList({ bookmarks, onRemove, onSelect, isAuthenticated }
                             key={bookmark.id}
                             className="bookmark-card"
                         >
-                            {/* Информация о городе */}
                             <button
                                 onClick={() => onSelect(bookmark.city)}
                                 className="bookmark-info"
@@ -97,7 +86,6 @@ export function BookmarksList({ bookmarks, onRemove, onSelect, isAuthenticated }
                                 </div>
                             </button>
 
-                            {/* Кнопка удаления */}
                             <button
                                 onClick={() => onRemove(bookmark.id)}
                                 className="bookmark-remove"
